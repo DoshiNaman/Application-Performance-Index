@@ -88,6 +88,7 @@ echo '
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                             if($row["locked"]==1){
+                                
                             echo'    
                             <tr>
                                 <td>'.$i.'</td>
@@ -133,12 +134,16 @@ echo '
                                     <!--<form method="POST" action="" class="p-2" enctype="multipart/form-data">-->
                                     <hr>
                                     <div class="form-group p-2">
-                                        <label for="sem">Semester</label>
-                                        <input type="text" class="form-control" value="Sem'.$row["sem"].'" id="sub" name="subCode" readonly>
+                                        <label for="sub">Sem</label>
+                                        <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Subject Code</label>
                                         <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sub">Subject Name</label>
+                                        <input type="text" class="form-control" value="'.$row["name"].'" id="subName" name="subName" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="schedule">No.of Scheduled classes/week</label>
@@ -172,7 +177,7 @@ echo '
                     if (mysqli_num_rows($result) > 0) {
                         
                         while($row = mysqli_fetch_assoc($result)) {
-                            if($row["locked"]==1){
+                            if($row["locked"]==1){                                
                                 echo ' <tr>
 
                                     <td>'.$i.'</td>
@@ -218,16 +223,16 @@ echo '
                                     <div class="modal-body mt-0 pt-0">
                                         <hr>
                                         <div class="form-group p-2">
-                                            <label for="subC">Subject Code</label>
-                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="subC" name="subCode" readonly>
+                                            <label for="sub">Sem</label>
+                                            <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="subN">Subject Name</label>
-                                            <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subN" name="subName" readonly>
+                                            <label for="sub">Subject Code</label>
+                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="y">Academic Year</label>
-                                            <input type="text" class="form-control" id="y" value="'.$row["year"].'" name="year" readonly>
+                                            <label for="sub">Subject Name</label>
+                                            <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subName" name="subName" readonly>
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="rI">Result of subject (Institute)</label>
@@ -254,92 +259,92 @@ echo '
                         //GR no entry.
                     }
 
-                    $sql = "SELECT * FROM DISC WHERE id='".$id."'";
-                    $result = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($result) > 0) {
+                    // $sql = "SELECT * FROM DISC WHERE id='".$id."'";
+                    // $result = mysqli_query($conn, $sql);
+                    // if (mysqli_num_rows($result) > 0) {
                         
-                        while($row = mysqli_fetch_assoc($result)) {
-                            if($row["locked"]==1){
-                                echo ' <tr>
-                                    <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
-                                    <td>DISC</td>
-                                    <td>'.$row['id'].'</td>
-                                    <td>'.$row['point'].'</td>
-                                    <td>
-                                    <div class="row">
-                                    <div class="col-auto">
-                                    <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["id"].'DISC"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
-                                    <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
-                                    </div>
-                                    <div class="col-auto">
-                                    <button type="submit" name="comment" id="commentBtn" value="DISC_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
-                                    </div>
-                                    </div>
-                                    </td>
-                                    <td>
-                                    <div class="row">
-                                    <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#DISC'.$row["id"].'">VIEW</button></div>
-                                    ';
-                                    if($row["verify"]==1){
-                                        echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["id"].'_DISC" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
-                                    }
-                                    else{
-                                        echo'<div class="col-auto"><button type="submit" name="verify" value="DISC_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
-                                    }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
-                                    </div>
-                                    </td>
-                                </tr>
-                                <!-- Modal -->
-                                <div class="modal fade" id="DISC'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title text-dark" id="exampleModalCenterTitle">Edit Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </button>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body mt-0 pt-0">
-                                        <hr>
-                                        <div class="form-group p-2">
-                                            <label for="subC">Id</label>
-                                            <input type="text" class="form-control" value="'.$row["id"].'" id="subC" name="subCode" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No of times Late Punch</label>
-                                            <input type="number" min="0" max="100" value="'.$row["TLP"].'" class="form-control" id="nooftlp" name="nooftlp" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No. of LWP</label>
-                                            <input type="number" min="0" max="100" value="'.$row["LWP"].'" class="form-control" id="nooflwp" name="nooflwp" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No. of Balanced leave</label>
-                                            <input type="number" min="0" max="5" class="form-control" value="'.$row["BL"].'" id="noofbl" name="noofbl" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No .of memo/justification/clarification</label>
-                                            <input type="number" min="0" max="100" class="form-control" value="'.$row["MJC"].'" id="noofm" name="noofm" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No .of Fine</label>
-                                            <input type="number" min="0" max="100" value="'.$row["F"].'" class="form-control" id="nooff" name="nooff" readonly>
-                                        </div>
+                    //     while($row = mysqli_fetch_assoc($result)) {
+                    //         if($row["locked"]==1){
+                    //             echo ' <tr>
+                    //                 <td>'.$i.'</td>
+                    //                 <td>'.$name.'</td>
+                    //                 <td>DISC</td>
+                    //                 <td>'.$row['id'].'</td>
+                    //                 <td>'.$row['point'].'</td>
+                    //                 <td>
+                    //                 <div class="row">
+                    //                 <div class="col-auto">
+                    //                 <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["id"].'DISC"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
+                    //                 <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
+                    //                 </div>
+                    //                 <div class="col-auto">
+                    //                 <button type="submit" name="comment" id="commentBtn" value="DISC_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
+                    //                 </div>
+                    //                 </div>
+                    //                 </td>
+                    //                 <td>
+                    //                 <div class="row">
+                    //                 <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#DISC'.$row["id"].'">VIEW</button></div>
+                    //                 ';
+                    //                 if($row["verify"]==1){
+                    //                     echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["id"].'_DISC" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
+                    //                 }
+                    //                 else{
+                    //                     echo'<div class="col-auto"><button type="submit" name="verify" value="DISC_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
+                    //                 }
+                    //                 echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                    //                 </div>
+                    //                 </td>
+                    //             </tr>
+                    //             <!-- Modal -->
+                    //             <div class="modal fade" id="DISC'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    //             <div class="modal-dialog modal-dialog-centered" role="document">
+                    //                 <div class="modal-content">
+                    //                 <div class="modal-header">
+                    //                     <h5 class="modal-title text-dark" id="exampleModalCenterTitle">Edit Details</h5>
+                    //                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    //                     </button>
+                    //                     </button>
+                    //                 </div>
+                    //                 <div class="modal-body mt-0 pt-0">
+                    //                     <hr>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subC">Id</label>
+                    //                         <input type="text" class="form-control" value="'.$row["id"].'" id="subC" name="subCode" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No of times Late Punch</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["TLP"].'" class="form-control" id="nooftlp" name="nooftlp" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No. of LWP</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["LWP"].'" class="form-control" id="nooflwp" name="nooflwp" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No. of Balanced leave</label>
+                    //                         <input type="number" min="0" max="5" class="form-control" value="'.$row["BL"].'" id="noofbl" name="noofbl" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No .of memo/justification/clarification</label>
+                    //                         <input type="number" min="0" max="100" class="form-control" value="'.$row["MJC"].'" id="noofm" name="noofm" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No .of Fine</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["F"].'" class="form-control" id="nooff" name="nooff" readonly>
+                    //                     </div>
                                         
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                                ';
-                                $i=$i+1;
-                            }
-                        }
+                    //                 </div>
+                    //                 </div>
+                    //             </div>
+                    //             </div>
+                    //             ';
+                    //             $i=$i+1;
+                    //         }
+                    //     }
                         
-                    } else {
-                        //DISC no entry.
-                    }
+                    // } else {
+                    //     //DISC no entry.
+                    // }
 
                     $sql = "SELECT * FROM DP WHERE id='".$id."'";
                     $result = mysqli_query($conn, $sql);
@@ -1217,12 +1222,16 @@ echo '
                                     <div class="modal-body mt-0 pt-0">
                                         <hr>
                                         <div class="form-group p-2">
-                                            <label for="subN">Subject code</label>
-                                            <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["subject"].'" readonly>
+                                            <label for="sub">Sem</label>
+                                            <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="subN">Name of subject</label>
-                                            <input type="text" class="form-control" id="name" name="name" value="'.$row["name"].'" readonly>
+                                            <label for="sub">Subject Code</label>
+                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                        </div>
+                                        <div class="form-group p-2">
+                                            <label for="sub">Subject Name</label>
+                                            <input type="text" class="form-control" value="'.$row["name"].'" id="name" name="name" readonly>
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="subN">Link</label>
@@ -1571,6 +1580,21 @@ echo '
     <button type="button" id="alertCLose" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`   
     }
+
+    
+$("button:contains(\'VIEW\')").each(function(){
+    $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\@/g,\'-\'));
+    $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\./g,\'-\'));
+})
+
+$(".modal").each(function(){
+    $(this).attr("id",$(this).attr("id").replace(/\@/g,\'-\'));
+    $(this).attr("id",$(this).attr("id").replace(/\./g,\'-\'));
+})
+$("#table22").find("tr").find("#commentdata").each(function(){
+    $(this).attr("name",$(this).attr("name").replace(/\@/g,\'-\'));
+    $(this).attr("name",$(this).attr("name").replace(/\./g,\'-\'));
+})
     </script>   
 
 ';
@@ -1601,6 +1625,8 @@ function pushNotify() {
 $('#mybtn2').click(function(){
     pushNotify();
    });
+
+
 
 </script>
 </body>
@@ -1650,17 +1676,18 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $abc="commentdata$element$cid$tt";
+        
+        $id= str_replace('@','-',$cid);
+        $id= str_replace('.','-',$id);
+        $abc="commentdata$element$id$tt";
         $cdata=$_POST[$abc];
         $sql = "UPDATE $tt SET comment='$cdata'  WHERE id='$cid' AND $elementField='$element'" ;
-        echo $sql;
         if ($conn->query($sql) === TRUE) {
             $_SESSION["success"]=$cid.' Entry Updated Successfully';
             echo "<script>location.href = 'home.php';</script>";
         } else {
             $_SESSION["danger"]=$cid.'Entry Not Updated Successfully';
             echo "<script>location.href = 'home.php';</script>";
-            //echo "Error updating record: " . $conn->error;
         }
     }
     elseif(count($arr)==2){

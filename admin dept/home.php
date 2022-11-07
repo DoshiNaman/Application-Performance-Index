@@ -196,6 +196,21 @@ echo '
     <button type="button" id="alertCLose" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`   
     }
+
+    $("button:contains(\'VIEW\')").each(function(){
+        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\@/g,\'-\'));
+        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\./g,\'-\'));
+    })
+    
+    $(".modal").each(function(){
+        $(this).attr("id",$(this).attr("id").replace(/\@/g,\'-\'));
+        $(this).attr("id",$(this).attr("id").replace(/\./g,\'-\'));
+    })
+    $("#table22").find("tr").find("#commentdata").each(function(){
+        $(this).attr("name",$(this).attr("name").replace(/\@/g,\'-\'));
+        $(this).attr("name",$(this).attr("name").replace(/\./g,\'-\'));
+    })
+
     </script> 
     
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -226,6 +241,8 @@ echo '
         </form>
         </div>
     </div>  
+
+
 
 ';
 
@@ -303,7 +320,9 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $abc="commentdata$element$cid$tt";
+        $id= str_replace('@','-',$cid);
+        $id= str_replace('.','-',$id);
+        $abc="commentdata$element$id$tt";
         $cdata=$_POST[$abc];
         $sql = "UPDATE $tt SET comment='$cdata'  WHERE id='$cid' AND $elementField='$element'" ;
         echo $sql;
@@ -319,7 +338,9 @@ if(isset($_POST["comment"])){
     elseif(count($arr)==2){
         $tt=$arr[0];
         $cid=$arr[1];
-        $abc="commentdata$cid$tt";
+        $id= str_replace('@','-',$cid);
+        $id= str_replace('.','-',$id);
+        $abc="commentdata$id$tt";
         $cdata=$_POST[$abc];
         $sql = "UPDATE $tt SET comment='$cdata'  WHERE id='$cid'";
     

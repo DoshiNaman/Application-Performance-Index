@@ -9,6 +9,29 @@ if(!isset($_SESSION["id"]) AND !isset($_SESSION["fprofile"]) AND $_SESSION["fpro
     ";
 }
 
+$subjectNameArr=array();
+echo '<script> var subjectNameArr = {}; </script>';
+$sqll = "SELECT * FROM Subject order by sem,code";
+$resultt = mysqli_query($conn, $sqll);
+if (mysqli_num_rows($resultt) > 0) {
+    while($row = mysqli_fetch_assoc($resultt)) {
+        $key1 = $row['sem'];
+        $key = $row['code'];
+        $value = $row['name'];
+        $subjectNameArr[$key1][$key] = $value;
+        echo '<script>
+        subjectNameArr["'.$key.'/'.$key1.'"] = "'.$value.'";
+         </script>';
+    }
+}
+
+echo "<script>
+function getName(p1){
+    return subjectNameArr[p1];
+}
+// console.log(getName('3130004/3'))
+</script>";
+
 echo '
 
 <!DOCTYPE html>
@@ -73,6 +96,10 @@ echo '
                     <input type="text" class="form-control" id="sub" name="subCode" required>
                   </div>
                   <div class="form-group p-2">
+                    <label for="sub">Subject Name</label>
+                    <input type="text" class="form-control" id="subNameTLP" name="subName" required readonly>
+                  </div>
+                  <div class="form-group p-2">
                     <label for="schedule">No.of Scheduled classes/week</label>
                     <input type="number" min="0" class="form-control" id="schedule" name="scheduleClass" required>
                   </div>
@@ -91,12 +118,26 @@ echo '
                 <form method="POST" action="" class="p-2" id="GR" enctype="multipart/form-data">
                   <hr>
                   <div class="form-group p-2">
+                    <label for="sem">Semester</label>
+                    <select class="form-control" name="semester" id="semGR">
+                        <option value="0">Select One</option>
+                        <option value="1">Sem 1</option>
+                        <option value="2">Sem 2</option>
+                        <option value="3">Sem 3</option>
+                        <option value="4">Sem 4</option>
+                        <option value="5">Sem 5</option>
+                        <option value="6">Sem 6</option>
+                        <option value="7">Sem 7</option>
+                        <option value="8">Sem 8</option>
+                    </select>
+                  </div>
+                  <div class="form-group p-2">
                     <label for="subC">Subject Code</label>
                     <input type="text" class="form-control" id="subC" name="subCode" required>
                   </div>
                   <div class="form-group p-2">
                     <label for="subN">Subject Name</label>
-                    <input type="text" class="form-control" id="subN" name="subName" required>
+                    <input type="text" class="form-control" id="subNameGR" name="subName" required readonly>
                   </div>
                   <div class="form-group p-2">
                     <label for="y">Academic Year</label>
@@ -500,12 +541,26 @@ echo '
                     <form method="POST" action="" class="p-2" id="raa8" enctype="multipart/form-data">
                         <hr>
                         <div class="form-group p-2">
+                          <label for="sem">Semester</label>
+                          <select class="form-control" name="semester" id="sem">
+                              <option value="0">Select One</option>
+                              <option value="1">Sem 1</option>
+                              <option value="2">Sem 2</option>
+                              <option value="3">Sem 3</option>
+                              <option value="4">Sem 4</option>
+                              <option value="5">Sem 5</option>
+                              <option value="6">Sem 6</option>
+                              <option value="7">Sem 7</option>
+                              <option value="8">Sem 8</option>
+                          </select>
+                        </div>
+                        <div class="form-group p-2">
                             <label for="subN">Name of subject</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="subNameraa8" name="subName" required readonly>
                         </div>
                         <div class="form-group p-2">
                             <label for="subN">Subject code</label>
-                            <input type="text" class="form-control" id="subCode" name="subCode" required>
+                            <input type="text" class="form-control" id="subC" name="subCode" required>
                         </div>
                         <div class="form-group p-2">
                             <label for="subN">Link</label>
@@ -925,106 +980,16 @@ echo '
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                                     <hr>
                                     <div class="form-group p-2">
-                                        <label for="sem">Semester</label>
-                                        <select class="form-control" name="semester" id="sem">
-                                            ';
-                                            
-                                            if($row["sem"]==1){
-                                                echo'
-                                                <option value="1" selected>Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==2){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2" selected>Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==3){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3" selected>Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==4){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4" selected>Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==5){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5" selected>Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==6){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6" selected>Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==7){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7" selected>Sem 7</option>
-                                                <option value="8">Sem 8</option>';
-                                            }
-                                            elseif($row["sem"]==8){
-                                                echo'
-                                                <option value="1">Sem 1</option>
-                                                <option value="2">Sem 2</option>
-                                                <option value="3">Sem 3</option>
-                                                <option value="4">Sem 4</option>
-                                                <option value="5">Sem 5</option>
-                                                <option value="6">Sem 6</option>
-                                                <option value="7">Sem 7</option>
-                                                <option value="8" selected>Sem 8</option>';
-                                            }
-                                            
-                                            
-                                            echo'
-                                        </select>
+                                        <label for="sub">Sem</label>
+                                        <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Subject Code</label>
                                         <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sub">Subject Name</label>
+                                        <input type="text" class="form-control" value="'.$row["name"].'" id="subName" name="subName" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="schedule">No.of Scheduled classes/week</label>
@@ -1091,12 +1056,16 @@ echo '
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                                     <hr>
                                     <div class="form-group p-2">
-                                        <label for="subC">Subject Code</label>
-                                        <input type="text" class="form-control" value="'.$row["subject"].'" id="subC" name="subCode" readonly>
+                                        <label for="sub">Sem</label>
+                                        <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="subN">Subject Name</label>
-                                        <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subN" name="subName">
+                                        <label for="sub">Subject Code</label>
+                                        <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sub">Subject Name</label>
+                                        <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subName" name="subName" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="y">Academic Year</label>
@@ -2211,12 +2180,16 @@ echo '
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                                     <hr>
                                     <div class="form-group p-2">
-                                        <label for="subN">Subject code</label>
-                                        <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["subject"].'" readonly required>
+                                        <label for="sub">Sem</label>
+                                        <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="subN">Name of subject</label>
-                                        <input type="text" class="form-control" id="name" name="name" value="'.$row["name"].'" required>
+                                        <label for="sub">Subject Code</label>
+                                        <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sub">Subject Name</label>
+                                        <input type="text" class="form-control" value="'.$row["name"].'" id="name" name="name" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="subN">Link</label>
@@ -2601,6 +2574,19 @@ echo '
     <button type="button" id="alertCLose" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`   
     }
+
+
+    $("button:contains(\'VIEW\')").each(function(){
+        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\@/g,\'-\'));
+        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\./g,\'-\'));
+    })
+    
+    $(".modal").each(function(){
+        $(this).attr("id",$(this).attr("id").replace(/\@/g,\'-\'));
+        $(this).attr("id",$(this).attr("id").replace(/\./g,\'-\'));
+    })
+
+
     </script>   
 
 ';
@@ -2633,7 +2619,162 @@ $('#mybtn2').click(function(){
    });
 
 
-</script>
+$('#TLP').find('#sem').on('change', function() {
+    if(this.value != '0'){
+        let sem = this.value;
+        let code = $('#TLP').find('#sub').val();
+        let p1 = code+'/'+sem;
+        if(code.length > 0){
+            if(getName(p1) === undefined){
+                $('#TLP').find('#subNameTLP').val('Invalid');
+            }
+            else{
+                $('#TLP').find('#subNameTLP').val(getName(p1));
+            }
+        }
+        else{
+            $('#TLP').find('#subNameTLP').val('');
+        }
+    }
+    else{
+        $('#TLP').find('#subNameTLP').val('');
+
+    }
+});
+
+
+$('#TLP').find('#sub').keyup(function() {
+    console.log($(this).val());
+    if($(this).val().length > 0){
+        if($('#TLP').find('#sem').find(':selected').val()!= '0'){
+            let sem = $('#TLP').find('#sem').find(':selected').val();
+            let code = $(this).val();
+            let p1 = code+'/'+sem;
+            if(getName(p1) === undefined){
+                $('#TLP').find('#subNameTLP').val('Invalid');
+            }
+            else{
+                $('#TLP').find('#subNameTLP').val(getName(p1));
+            }
+        }
+        else{
+            $('#TLP').find('#subNameTLP').val('');
+        }
+    }
+    else{
+        $('#TLP').find('#subNameTLP').val('');
+    }
+});
+
+$('#GR').find('#semGR').on('change', function() {
+    if(this.value != '0'){
+        let sem = this.value;
+        let code = $('#GR').find('#subC').val();
+        let p1 = code+'/'+sem;
+        if(code.length > 0){
+            if(getName(p1) === undefined){
+                $('#GR').find('#subNameGR').val('Invalid');
+            }
+            else{
+                $('#GR').find('#subNameGR').val(getName(p1));
+            }
+        }
+        else{
+            $('#GR').find('#subNameGR').val('');
+        }
+    }
+    else{
+        $('#GR').find('#subNameGR').val('');
+
+    }
+});
+
+
+$('#GR').find('#subC').keyup(function() {
+    console.log($(this).val());
+    if($(this).val().length > 0){
+        if($('#GR').find('#semGR').find(':selected').val()!= '0'){
+            let sem = $('#GR').find('#semGR').find(':selected').val();
+            let code = $(this).val();
+            let p1 = code+'/'+sem;
+            if(getName(p1) === undefined){
+                $('#GR').find('#subNameGR').val('Invalid');
+            }
+            else{
+                $('#GR').find('#subNameGR').val(getName(p1));
+            }
+        }
+        else{
+            $('#GR').find('#subNameGR').val('');
+        }
+    }
+    else{
+        $('#GR').find('#subNameGR').val('');
+    }
+});
+
+$('#raa8').find('#sem').on('change', function() {
+    if(this.value != '0'){
+        let sem = this.value;
+        let code = $('#raa8').find('#subC').val();
+        let p1 = code+'/'+sem;
+        if(code.length > 0){
+            if(getName(p1) === undefined){
+                $('#raa8').find('#subNameraa8').val('Invalid');
+            }
+            else{
+                $('#raa8').find('#subNameraa8').val(getName(p1));
+            }
+        }
+        else{
+            $('#raa8').find('#subNameraa8').val('');
+        }
+    }
+    else{
+        $('#raa8').find('#subNameraa8').val('');
+
+    }
+});
+
+
+$('#raa8').find('#subC').keyup(function() {
+    console.log($(this).val());
+    if($(this).val().length > 0){
+        if($('#raa8').find('#sem').find(':selected').val()!= '0'){
+            let sem = $('#raa8').find('#sem').find(':selected').val();
+            let code = $(this).val();
+            let p1 = code+'/'+sem;
+            if(getName(p1) === undefined){
+                $('#raa8').find('#subNameraa8').val('Invalid');
+            }
+            else{
+                $('#raa8').find('#subNameraa8').val(getName(p1));
+            }
+        }
+        else{
+            $('#raa8').find('#subNameraa8').val('');
+        }
+    }
+    else{
+        $('#TLP').find('#subNameTLP').val('');
+    }
+});
+
+</script>";
+
+
+
+// <script>
+// $('#TLP').find('#sem').on('change', function() {
+//     console.log( $(this).value );
+//     if($('#TLP').find('#subC').val().length > 0){
+//         getName(echo '<scr>')
+//       $('#TLP').find('#subN').val(getName("$(this).value","$('#TLP').find('#subC').val()")+");
+//     }
+// });
+// </script>
+
+echo"
 
 </body>
 </html>
@@ -2676,6 +2817,7 @@ if(isset($_SESSION["danger"]) and $_SESSION["danger"]!=""){
 /* Submit */ 
 
 if(isset($_POST["submitTLP"])){
+    $n=$_POST["subName"];
     $b=$_POST["subCode"];
     $c=$_POST["scheduleClass"];
     $d=$_POST["actualClass"];
@@ -2684,6 +2826,10 @@ if(isset($_POST["submitTLP"])){
     $point=round($point,2);
     if($e=="0"){
         $_SESSION["danger"]='Select Sem';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    elseif($n=="Invalid" or $n==""){
+        $_SESSION["danger"]='Invalid Subject Code';
         echo "<script>location.href = 'home.php';</script>";
     }
     else{
@@ -2702,7 +2848,7 @@ if(isset($_POST["submitTLP"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "INSERT INTO TLP VALUES ('$a', '$b',$point,0,'','$e',$c,$d,'$fpdfname',0, '')";
+            $sql = "INSERT INTO TLP VALUES ('$a', '$b','$n',$point,0,'','$e',$c,$d,'$fpdfname',0, '')";
             if (mysqli_query($conn, $sql)) {
                 $_SESSION["success"]='TLP Entry Successfully';
                 echo "<script>location.href = 'home.php';</script>";
@@ -2720,37 +2866,50 @@ if(isset($_POST["submitGR"])){
     $d=$_POST["year"];
     $e=$_POST["resultInstitute"];
     $f=$_POST["resultGtu"];
+    $g=$_POST["semester"];
     if(($e-$f) < 0 ){
         $point=($e-$f)*2;
     }
     else{
         $point=($e-$f)*4;
     }
-    $sql = "SELECT * FROM GR WHERE id='".$a."' AND subject='".$b."'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        $_SESSION["danger"]='Entry already there';
+    if($g=="0"){
+        $_SESSION["danger"]='Select Sem';
         echo "<script>location.href = 'home.php';</script>";
-    } else {
-        $fpdfname=$b."-GR.pdf";
-        $attachment=$_FILES['attachment']['name'];
-        $attachment_type=$_FILES['attachment']['type'];
-        $attachment_size=$_FILES['attachment']['size'];
-        $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
-        $attachment_store="../document/".$a."/".$attachment;
-        move_uploaded_file($attachment_tem_loc,$attachment_store);
-        $newpath="../document/".$a."/".$fpdfname;
-        rename($attachment_store, $newpath);
-        $sql = "INSERT INTO GR VALUES ('$a', '$b', '$c', '$d', $point, $e, $f, 0, '$fpdfname', 0, '', '')";
-        if (mysqli_query($conn, $sql)) {
-            $_SESSION["success"]='GR Entry Successfully';
+    }
+    elseif($c=="Invalid" or $c==""){
+        $_SESSION["danger"]='Invalid Subject Code';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    else{
+        $sql = "SELECT * FROM GR WHERE id='".$a."' AND subject='".$b."'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            $_SESSION["danger"]='Entry already there';
             echo "<script>location.href = 'home.php';</script>";
         } else {
-            $_SESSION["danger"]='GR Denied Successfully';
-            echo "<script>location.href = 'home.php';</script>";
-            #echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            $fpdfname=$b."-GR.pdf";
+            $attachment=$_FILES['attachment']['name'];
+            $attachment_type=$_FILES['attachment']['type'];
+            $attachment_size=$_FILES['attachment']['size'];
+            $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
+            $attachment_store="../document/".$a."/".$attachment;
+            move_uploaded_file($attachment_tem_loc,$attachment_store);
+            $newpath="../document/".$a."/".$fpdfname;
+            rename($attachment_store, $newpath);
+            $sql = "INSERT INTO GR VALUES ('$a', '$b', '$c', '$d', $point, $e, $f, 0, $g, '$fpdfname', 0, '', '')";
+            if (mysqli_query($conn, $sql)) {
+                $_SESSION["success"]='GR Entry Successfully';
+                echo "<script>location.href = 'home.php';</script>";
+            } else {
+                $_SESSION["danger"]='GR Denied Successfully';
+                echo "<script>location.href = 'home.php';</script>";
+                #echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
         }
+    
     }
+    
 }
 
 if(isset($_POST["submitDISC"])){
@@ -3294,35 +3453,47 @@ if(isset($_POST["submitRAA7"])){
 }
 
 if(isset($_POST["submitRAA8"])){
+    $n=$_POST["subName"];
     $b=$_POST["subCode"];
-    $g=$_POST["name"];
     $c=$_POST["link"];
+    $e=$_POST["semester"];
     $point=5;
     $index="";
-    $sql = "SELECT * FROM RAA8 WHERE id='".$a."' AND subject='".$b."'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        $_SESSION["danger"]='Entry already there';
+    if($e=="0"){
+        $_SESSION["danger"]='Select Sem';
         echo "<script>location.href = 'home.php';</script>";
-    } else {
-        $fpdfname=$b."-RAA8.pdf";
-        $attachment=$_FILES['attachment']['name'];
-        $attachment_type=$_FILES['attachment']['type'];
-        $attachment_size=$_FILES['attachment']['size'];
-        $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
-        $attachment_store="../document/".$a."/".$attachment;
-        move_uploaded_file($attachment_tem_loc,$attachment_store);
-        $newpath="../document/".$a."/".$fpdfname;
-        rename($attachment_store, $newpath);
-        $sql = "INSERT INTO RAA8 VALUES ('$a','$g','$b','$c',$point,'',0,0,'$fpdfname','')";
-        if (mysqli_query($conn, $sql)) {
-            $_SESSION["success"]='RAA8 Entry Successfully';
+    }
+    elseif($n=="Invalid" or $n==""){
+        $_SESSION["danger"]='Invalid Subject Code';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    else{
+        $sql = "SELECT * FROM RAA8 WHERE id='".$a."' AND subject='".$b."'";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+            $_SESSION["danger"]='Entry already there';
             echo "<script>location.href = 'home.php';</script>";
         } else {
-            $_SESSION["danger"]='RAA8 Denied Successfully';
-            echo "<script>location.href = 'home.php';</script>";
+            $fpdfname=$b."-RAA8.pdf";
+            $attachment=$_FILES['attachment']['name'];
+            $attachment_type=$_FILES['attachment']['type'];
+            $attachment_size=$_FILES['attachment']['size'];
+            $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
+            $attachment_store="../document/".$a."/".$attachment;
+            move_uploaded_file($attachment_tem_loc,$attachment_store);
+            $newpath="../document/".$a."/".$fpdfname;
+            rename($attachment_store, $newpath);
+            $sql = "INSERT INTO RAA8 VALUES ('$a','$n','$b',$e,'$c',$point,'',0,0,'$fpdfname','')";
+            if (mysqli_query($conn, $sql)) {
+                $_SESSION["success"]='RAA8 Entry Successfully';
+                echo "<script>location.href = 'home.php';</script>";
+            } else {
+                $_SESSION["danger"]='RAA8 Denied Successfully';
+                echo "<script>location.href = 'home.php';</script>";
+            }
         }
     }
+    
     
 }
 
@@ -3490,14 +3661,15 @@ if(isset($_POST["submitAO"])){
 
 /* Edit */
 if(isset($_POST["editTLP"])){
+    $n=$_POST["subName"];
     $b=$_POST["subCode"];
     $c=$_POST["scheduleClass"];
     $d=$_POST["actualClass"];
-    $e=$_POST["semester"];
+    $e=$_POST["sem"];
     $point=($d/$c)*50;
     $point=round($point,2);
     if($_FILES['attachment']['name'] == "") {
-        $sql = "UPDATE TLP SET sem='$e', point='$point',scheduleClass='$c',actualClass='$d'  WHERE id='$a' AND subject='$b'" ;
+        $sql = "UPDATE TLP SET point='$point',scheduleClass='$c',actualClass='$d'  WHERE id='$a' AND subject='$b'" ;
     }
     else{
         $fpdfname=$b."-TLP.pdf";
@@ -3509,7 +3681,7 @@ if(isset($_POST["editTLP"])){
         move_uploaded_file($attachment_tem_loc,$attachment_store);
         $newpath="../document/".$a."/".$fpdfname;
         rename($attachment_store, $newpath);
-        $sql = "UPDATE TLP SET sem='$e', point='$point',scheduleClass='$c',actualClass='$d',attachment='$fpdfname'  WHERE id='$a' AND subject='$b'" ;
+        $sql = "UPDATE TLP SET point='$point',scheduleClass='$c',actualClass='$d',attachment='$fpdfname'  WHERE id='$a' AND subject='$b'" ;
     }
     if ($conn->query($sql) === TRUE) {
         $_SESSION["success"]='TLP Updated Successfully';
@@ -3535,7 +3707,7 @@ if(isset($_POST["editGR"])){
     }
     
     if($_FILES['attachment']['name'] == "") {
-        $sql = "UPDATE GR SET subjectName='$c', point='$point', resultInstitute='$e', resultGtu='$f', year='$d'  WHERE id='$a' AND subject='$b'" ;
+        $sql = "UPDATE GR SET point='$point', resultInstitute='$e', resultGtu='$f', year='$d'  WHERE id='$a' AND subject='$b'" ;
     }
     else{
         $fpdfname=$b."-GR.pdf";
@@ -3547,7 +3719,7 @@ if(isset($_POST["editGR"])){
         move_uploaded_file($attachment_tem_loc,$attachment_store);
         $newpath="../document/".$a."/".$fpdfname;
         rename($attachment_store, $newpath);
-        $sql = "UPDATE GR SET subjectName='$c', point='$point', resultInstitute='$e', resultGtu='$f', year='$d', attachment='$fpdfname' WHERE id='$a' AND subject='$b'";
+        $sql = "UPDATE GR SET point='$point', resultInstitute='$e', resultGtu='$f', year='$d', attachment='$fpdfname' WHERE id='$a' AND subject='$b'";
     }
 
     if ($conn->query($sql) === TRUE) {
@@ -4040,7 +4212,7 @@ if(isset($_POST["editRAA8"])){
     $d=$_POST["link"];
     $point=5;
     if($_FILES['attachment']['name'] == "") {
-        $sql = "UPDATE RAA8 SET name='$c',link='$d',point='$point'  WHERE id='$a' AND subject='$b'" ;
+        $sql = "UPDATE RAA8 SET link='$d',point='$point'  WHERE id='$a' AND subject='$b'" ;
     }
     else{
         $fpdfname=$b."-RAA8.pdf";
@@ -4052,7 +4224,7 @@ if(isset($_POST["editRAA8"])){
         move_uploaded_file($attachment_tem_loc,$attachment_store);
         $newpath="../document/".$a."/".$fpdfname;
         rename($attachment_store, $newpath);
-        $sql = "UPDATE RAA8 SET name='$c',link='$d',point='$point',attachment='$fpdfname'  WHERE id='$a' AND subject='$b'" ;
+        $sql = "UPDATE RAA8 SET link='$d',point='$point',attachment='$fpdfname'  WHERE id='$a' AND subject='$b'" ;
     }
 
     if ($conn->query($sql) === TRUE) {
@@ -4061,7 +4233,6 @@ if(isset($_POST["editRAA8"])){
     } else {
         $_SESSION["danger"]='RAA8 Not Updated Successfully';
         echo "<script>location.href = 'home.php';</script>";
-        //echo "Error updating record: " . $conn->error;
     }   
 }
 

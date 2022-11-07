@@ -31,7 +31,7 @@ echo '
 </head>
 <body>
     <div class="container">
-        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="javascript:void(0)">Portfolio/Subject</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="home.php">Home</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
