@@ -1255,35 +1255,35 @@ echo '
                                 <td>'.$i.'</td>
                                     <td>'.$name.'</td>
                                     <td>RAA9</td>
-                                    <td>'.$row['id'].'</td>
+                                    <td>'.$row['name'].'</td>
                                     <td>'.$row['point'].'</td>
                                     <td>
                                     <div class="row">
                                     <div class="col-auto">
-                                    <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["id"].'RAA9"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
+                                    <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["name"].''.$row["id"].'RAA9"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
                                     <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
                                     </div>
                                     <div class="col-auto">
-                                    <button type="submit" name="comment" id="commentBtn" value="RAA9_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
+                                    <button type="submit" name="comment" id="commentBtn" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
                                     </div>
                                     </div>
                                     </td>
                                     <td>
                                     <div class="row">
-                                    <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA9'.$row["id"].'">VIEW</button></div>
+                                    <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA9'.$row["name"].''.$row["id"].'">VIEW</button></div>
                                     ';
                                     if($row["verify"]==1){
-                                        echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["id"].'_RAA9" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
+                                        echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["name"].'_name_RAA9" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
                                     }
                                     else{
-                                        echo'<div class="col-auto"><button type="submit" name="verify" value="RAA9_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
+                                        echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="RAA9_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
                                     </div>
                                     </td>
                                 </tr>
                                 <!-- Modal -->
-                                <div class="modal fade" id="RAA9'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal fade" id="RAA9'.$row["name"].''.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
@@ -1294,6 +1294,10 @@ echo '
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
                                         <hr>
+                                        <div class="form-group p-2">
+                                            <label for="sem">Patent\'s Name</label>
+                                            <input type="text" class="form-control" id="link" name="link" value="'.$row["name"].'" readonly>
+                                        </div>
                                         <div class="form-group p-2">
                                             <label for="sem">Option1</label>
                                             <input type="text" class="form-control" id="link" name="link" value="'.$row["type"].'" readonly>
@@ -1325,35 +1329,35 @@ echo '
                                 <td>'.$i.'</td>
                                 <td>'.$name.'</td>
                                 <td>RAA10</td>
-                                <td>'.$row['name'].'</td>
+                                <td>'.$row['enrollment'].'</td>
                                 <td>'.$row['point'].'</td>
                                 <td>
                                 <div class="row">
                                 <div class="col-auto">
-                                <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["name"].''.$row["id"].'RAA10"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
+                                <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["enrollment"].''.$row["id"].'RAA10"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
                                 <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
                                 </div>
                                 <div class="col-auto">
-                                <button type="submit" name="comment" id="commentBtn" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
+                                <button type="submit" name="comment" id="commentBtn" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
                                 </div>
                                 </div>
                                 </td>
                                 <td>
                                 <div class="row">
-                                <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["name"].''.$row["id"].'">VIEW</button></div>
+                                <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["enrollment"].''.$row["id"].'">VIEW</button></div>
                                 ';
                                 if($row["verify"]==1){
-                                    echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["name"].'_name_RAA10" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
+                                    echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
                                 }
                                 else{
-                                    echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
+                                    echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
                                 </div>
                                 </td>
                                 </tr>
                                 <!-- Modal -->
-                                <div class="modal fade" id="RAA10'.$row["name"].''.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal fade" id="RAA10'.$row["enrollment"].''.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
@@ -1364,6 +1368,10 @@ echo '
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
                                         <hr>
+                                        <div class="form-group p-2">
+                                            <label for="subN">Enrollment</label>
+                                            <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["enrollment"].'" readonly>
+                                        </div>
                                         <div class="form-group p-2">
                                             <label for="subN">Name</label>
                                             <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["name"].'" readonly>
@@ -1571,6 +1579,18 @@ echo '
     <button type="button" id="alertCLose" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`   
     }
+
+    
+$("button:contains(\'VIEW\')").each(function(){
+    $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
+})
+
+$(".modal").each(function(){
+    $(this).attr("id",$(this).attr("id").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
+})
+$("#table22").find("tr").find("#commentdata").each(function(){
+    $(this).attr("name",$(this).attr("name").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
+})
     </script> 
     
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1678,7 +1698,14 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $abc="commentdata$element$cid$tt";
+        $abc="commentdata$element$id$tt";
+        $abc= str_replace('@','-',$abc);
+        $abc= str_replace('.','-',$abc);
+        $abc= str_replace('$','-',$abc);
+        $abc= str_replace('%','-',$abc);
+        $abc= str_replace('&','-',$abc);
+        $abc= str_replace('^','-',$abc);
+        $abc= str_replace(' ','-',$abc);
         $cdata=$_POST[$abc];
         $sql = "UPDATE $tt SET comment='$cdata'  WHERE id='$cid' AND $elementField='$element'" ;
         echo $sql;

@@ -362,7 +362,7 @@ echo '
               echo ' <tr>
               <th scope="row">'.$i.'</th>
               <td>RAA9</td>
-              <td>'.$row["id"].'</td>
+              <td>'.$row["name"].'</td>
               <td>'.$row["point"].'</td>
               <td>'.$row["verify"].'</td>
               <td>'.$row["locked"].'</td>
@@ -383,7 +383,7 @@ echo '
               echo ' <tr>
               <th scope="row">'.$i.'</th>
               <td>RAA10</td>
-              <td>'.$row["name"].'</td>
+              <td>'.$row["enrollment"].'</td>
               <td>'.$row["point"].'</td>
               <td>'.$row["verify"].'</td>
               <td>'.$row["locked"].'</td>

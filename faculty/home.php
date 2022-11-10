@@ -577,7 +577,11 @@ echo '
                     <form method="POST" action="" class="p-2" id="raa9" enctype="multipart/form-data">
                         <hr>
                         <div class="form-group p-2">
-                            <label for="sem">Option1</label>
+                          <label for="subN">Patent\'s Name</label>
+                          <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group p-2">
+                            <label for="sem">Option</label>
                             <select class="form-control" name="o1" id="o1">
                                 <option value="0">Select One</option>
                                 <option value="1">International Grant</option>
@@ -597,12 +601,17 @@ echo '
                     <form method="POST" action="" class="p-2" id="raa10" enctype="multipart/form-data">
                         <hr>
                         <div class="form-group p-2">
+                            <label for="subN">Enrollment No</label>
+                            <input type="text" min="0" class="form-control" id="enroll" name="enroll" required>
+                        </div>
+                        <div class="form-group p-2">
                             <label for="sem">Program</label>
                             <select class="form-control" name="name" id="o1">
                                 <option value="0">Select One</option>
-                                <option value="1">Degree</option>
-                                <option value="2">Degree + Thesis</option>
-                                <option value="3">PhD</option>
+                                <option value="1">Ph.D</option>
+                                <option value="2">Ph.D + Thesis</option>
+                                <option value="3">PG Dissertiation</option>
+                                <option value="4">UG Project</option>
                             </select>
                         </div>
                         <div class="form-group p-2">
@@ -2234,14 +2243,14 @@ echo '
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
                                 <td>RAA9</td>
-                                <td>'.$row["id"].'</td>
+                                <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA9'.$row["id"].'">EDIT</button>
-                                <button type="submit" name="lock" value="RAA9" class="btn btn-sm btn-success">Lock</button>
-                                <button type="submit" name="del" value="RAA9" class="btn btn-sm btn-danger">Del</button></td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA9'.$row["name"].'">EDIT</button>
+                                <button type="submit" name="lock" value="'.$row["name"].'_name_RAA9" class="btn btn-sm btn-success">Lock</button>
+                                <button type="submit" name="del" value="'.$row["name"].'_name_RAA9" class="btn btn-sm btn-danger">Del</button></td>
                             </tr>
                             <!-- Modal -->
-                            <div class="modal fade" id="RAA9'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="RAA9'.$row["name"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -2253,6 +2262,10 @@ echo '
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                                     <hr>
+                                    <div class="form-group p-2">
+                                      <label for="subN">Patent\'s Name</label>
+                                      <input type="text" class="form-control" id="name" name="name" readonly value="'.$row["name"].'">
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sem">Option1</label>
                                         <select class="form-control" name="o1" id="o1">
@@ -2330,14 +2343,14 @@ echo '
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
                                 <td>RAA10</td>
-                                <td>'.$row["name"].'</td>
+                                <td>'.$row["enrollment"].'</td>
                                 <td><!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["name"].'">EDIT</button>
-                                <button type="submit" name="lock" value="'.$row["name"].'_name_RAA10" class="btn btn-sm btn-success">Lock</button>
-                                <button type="submit" name="del" value="'.$row["name"].'_name_RAA10" class="btn btn-sm btn-danger">Del</button></td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["enrollment"].'">EDIT</button>
+                                <button type="submit" name="lock" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-sm btn-success">Lock</button>
+                                <button type="submit" name="del" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-sm btn-danger">Del</button></td>
                             </tr>
                             <!-- Modal -->
-                            <div class="modal fade" id="RAA10'.$row["name"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="RAA10'.$row["enrollment"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -2351,7 +2364,55 @@ echo '
                                     <hr>
                                     <div class="form-group p-2">
                                         <label for="subN">Name</label>
-                                        <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["name"].'" readonly required>
+                                        <input type="text" class="form-control" id="enrollment" name="enrollment" value="'.$row["enrollment"].'" readonly required>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sem">Role</label>
+                                        <select class="form-control" name="name" id="name">
+                                            ';
+                                            if($row["name"]=="phd"){
+                                                echo'
+                                                <option value="0">Select One</option>
+                                                <option value="1" selected>Ph.D</option>
+                                                <option value="2">Ph.D + Thesis</option>
+                                                <option value="3">PG Dissertiation</option>
+                                                <option value="4">UG Project</option>';
+                                            }
+                                            elseif($row["name"]=="phd-thesis"){
+                                                echo'
+                                                <option value="0">Select One</option>
+                                                <option value="1">Ph.D</option>
+                                                <option value="2" selected>Ph.D + Thesis</option>
+                                                <option value="3">PG Dissertiation</option>
+                                                <option value="4">UG Project</option>';
+                                            }
+                                            elseif($row["name"]=="pg"){
+                                                echo'
+                                                <option value="0">Select One</option>
+                                                <option value="1">Ph.D</option>
+                                                <option value="2">Ph.D + Thesis</option>
+                                                <option value="3" selected>PG Dissertiation</option>
+                                                <option value="4">UG Project</option>';
+                                            }
+                                            elseif($row["name"]=="ug"){
+                                                echo'
+                                                <option value="0">Select One</option>
+                                                <option value="1">Ph.D</option>
+                                                <option value="2">Ph.D + Thesis</option>
+                                                <option value="3">PG Dissertiation</option>
+                                                <option value="4" selected>UG Project</option>';
+                                            }
+                                            else{
+                                                echo'
+                                                <option value="0">Select One</option>
+                                                <option value="1">Ph.D</option>
+                                                <option value="2">Ph.D + Thesis</option>
+                                                <option value="3">PG Dissertiation</option>
+                                                <option value="4">UG Project</option>';
+                                            }
+                                            
+                                            echo'
+                                        </select>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="subN">No of candidate/team/group</label>
@@ -2576,14 +2637,12 @@ echo '
     }
 
 
-    $("button:contains(\'VIEW\')").each(function(){
-        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\@/g,\'-\'));
-        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/\./g,\'-\'));
+    $("button:contains(\'EDIT\')").each(function(){
+        $(this).attr("data-bs-target",$(this).attr("data-bs-target").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
     })
     
     $(".modal").each(function(){
-        $(this).attr("id",$(this).attr("id").replace(/\@/g,\'-\'));
-        $(this).attr("id",$(this).attr("id").replace(/\./g,\'-\'));
+        $(this).attr("id",$(this).attr("id").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
     })
 
 
@@ -3498,6 +3557,7 @@ if(isset($_POST["submitRAA8"])){
 }
 
 if(isset($_POST["submitRAA9"])){
+    $c=$_POST["name"];
     $b=$_POST["o1"];
     $point=0;
     if($b=="0"){
@@ -3511,7 +3571,7 @@ if(isset($_POST["submitRAA9"])){
         elseif($b==3){$point=10;$index="National Grant";}
         elseif($b==4){$point=14;$index="National Grant + Publish";}
        
-        $sql = "SELECT * FROM RAA9 WHERE id='".$a."'";
+        $sql = "SELECT * FROM RAA9 WHERE id='".$a."' AND name='".$c."'";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION["danger"]='Entry already there';
@@ -3526,7 +3586,7 @@ if(isset($_POST["submitRAA9"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "INSERT INTO RAA9 VALUES ('$a','$index',$point,'',0,0,'$fpdfname','')";
+            $sql = "INSERT INTO RAA9 VALUES ('$a','$c','$index',$point,'',0,0,'$fpdfname','')";
             if (mysqli_query($conn, $sql)) {
                 $_SESSION["success"]='RAA9 Entry Successfully';
                 echo "<script>location.href = 'home.php';</script>";
@@ -3540,6 +3600,7 @@ if(isset($_POST["submitRAA9"])){
 
 if(isset($_POST["submitRAA10"])){
     $b=$_POST["name"];
+    $d=$_POST["enroll"];
     $g=$_POST["noc"];
     $c=$_POST["nameou"];
     $point=0;
@@ -3549,13 +3610,14 @@ if(isset($_POST["submitRAA10"])){
     }
     else{
         $index="";
-        if($b==1){$point=10;$index="Degree";}
-        elseif($b==2){$point=15;$index="Degree Thesis";}
-        elseif($b==3){$point=3;$index="PhD";}
+        if($b==1){$point=10;$index="Phd";}
+        elseif($b==2){$point=15;$index="Phd Thesis";}
+        elseif($b==3){$point=3;$index="Pg";}
+        elseif($b==4){$point=1;$index="Ug";}
         $index=strtolower($index);
         $index=str_replace(' ', '-', $index);
 
-        $sql = "SELECT * FROM RAA10 WHERE id='".$a."' AND name='".$index."'";
+        $sql = "SELECT * FROM RAA10 WHERE id='".$a."' AND enrollment='".$d."'";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION["danger"]='Entry already there';
@@ -3570,7 +3632,7 @@ if(isset($_POST["submitRAA10"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "INSERT INTO RAA10 VALUES ('$a','$index','$g','$c',$point,'',0,0,'$fpdfname','')";
+            $sql = "INSERT INTO RAA10 VALUES ('$a','$d','$index','$g','$c',$point,'',0,0,'$fpdfname','')";
             if (mysqli_query($conn, $sql)) {
                 $_SESSION["success"]='RAA10 Entry Successfully';
                 echo "<script>location.href = 'home.php';</script>";
@@ -3732,6 +3794,7 @@ if(isset($_POST["editGR"])){
     }
 
 }
+
 if(isset($_POST["editDISC"])){
     $b=$_POST["nooftlp"];
     $c=$_POST["nooflwp"];
@@ -4238,6 +4301,7 @@ if(isset($_POST["editRAA8"])){
 
 if(isset($_POST["editRAA9"])){
     $b=$_POST["o1"];
+    $c=$_POST["name"];
     $point=0;
     if($b=="0"){
         $_SESSION["danger"]='Select Option 1';
@@ -4251,7 +4315,7 @@ if(isset($_POST["editRAA9"])){
         elseif($b==4){$point=14;$index="National Grant + Publish";}
         
         if($_FILES['attachment']['name'] == "") {
-            $sql = "UPDATE RAA9 SET type='$index',point='$point'  WHERE id='$a'" ;
+            $sql = "UPDATE RAA9 SET type='$index',point='$point'  WHERE id='$a' AND name='$c'" ;
         }
         else{
             $fpdfname=$a."-RAA9.pdf";
@@ -4263,7 +4327,7 @@ if(isset($_POST["editRAA9"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "UPDATE RAA9 SET type='$index',point='$point',attachment='$fpdfname'  WHERE id='$a'" ;
+            $sql = "UPDATE RAA9 SET type='$index',point='$point',attachment='$fpdfname'  WHERE id='$a' AND name='$c'" ;
         }
 
         if ($conn->query($sql) === TRUE) {
@@ -4278,33 +4342,48 @@ if(isset($_POST["editRAA9"])){
 }
 
 if(isset($_POST["editRAA10"])){
-    $b=$_POST["subCode"];
+    $b=$_POST["name"];
+    $d=$_POST["enrollment"];
     $c=$_POST["noc"];
-    $d=$_POST["nameou"];
-    if($_FILES['attachment']['name'] == "") {
-        $sql = "UPDATE RAA10 SET candidate='$c',university='$d'  WHERE id='$a' AND name='$b'" ;
+    $e=$_POST["nameou"];
+    if($b=="0"){
+        $_SESSION["danger"]='Select Program';
+        echo "<script>location.href = 'home.php';</script>";
     }
     else{
-        $fpdfname=$b."-RAA10.pdf";
-        $attachment=$_FILES['attachment']['name'];
-        $attachment_type=$_FILES['attachment']['type'];
-        $attachment_size=$_FILES['attachment']['size'];
-        $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
-        $attachment_store="../document/".$a."/".$attachment;
-        move_uploaded_file($attachment_tem_loc,$attachment_store);
-        $newpath="../document/".$a."/".$fpdfname;
-        rename($attachment_store, $newpath);
-        $sql = "UPDATE RAA10 SET candidate='$c',university='$d',attachment='$fpdfname'  WHERE id='$a' AND name='$b'" ;
-    }
+        $index="";
+        if($b==1){$point=10;$index="Phd";}
+        elseif($b==2){$point=15;$index="Phd Thesis";}
+        elseif($b==3){$point=3;$index="Pg";}
+        elseif($b==4){$point=1;$index="Ug";}
+        $index=strtolower($index);
+        $index=str_replace(' ', '-', $index);
 
-    if ($conn->query($sql) === TRUE) {
-        $_SESSION["success"]='RAA10 Updated Successfully';
-        echo "<script>location.href = 'home.php';</script>";
-    } else {
-        $_SESSION["danger"]='RAA10 Not Updated Successfully';
-        echo "<script>location.href = 'home.php';</script>";
-        //echo "Error updating record: " . $conn->error;
-    }   
+        if($_FILES['attachment']['name'] == "") {
+            $sql = "UPDATE RAA10 SET point=$point, name='$index', candidate='$c',university='$e'  WHERE id='$a' AND enrollment='$d'" ;
+        }
+        else{
+            $fpdfname=$index."-RAA10.pdf";
+            $attachment=$_FILES['attachment']['name'];
+            $attachment_type=$_FILES['attachment']['type'];
+            $attachment_size=$_FILES['attachment']['size'];
+            $attachment_tem_loc=$_FILES['attachment']['tmp_name'];
+            $attachment_store="../document/".$a."/".$attachment;
+            move_uploaded_file($attachment_tem_loc,$attachment_store);
+            $newpath="../document/".$a."/".$fpdfname;
+            rename($attachment_store, $newpath);
+            $sql = "UPDATE RAA10 SET point=$point, name='$index', candidate='$c',university='$e',attachment='$fpdfname'  WHERE id='$a' AND enrollment='$d'" ;
+        }
+        if ($conn->query($sql) === TRUE) {
+            $_SESSION["success"]='RAA10 Updated Successfully';
+            echo "<script>location.href = 'home.php';</script>";
+        } else {
+            $_SESSION["danger"]='RAA10 Not Updated Successfully';
+            echo "<script>location.href = 'home.php';</script>";
+            //echo "Error updating record: " . $conn->error;
+        } 
+    }
+      
 }
 
 if(isset($_POST["editINV"])){
