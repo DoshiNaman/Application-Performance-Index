@@ -320,9 +320,14 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $id= str_replace('@','-',$cid);
-        $id= str_replace('.','-',$id);
         $abc="commentdata$element$id$tt";
+        $abc= str_replace('@','-',$abc);
+        $abc= str_replace('.','-',$abc);
+        $abc= str_replace('$','-',$abc);
+        $abc= str_replace('%','-',$abc);
+        $abc= str_replace('&','-',$abc);
+        $abc= str_replace('^','-',$abc);
+        $abc= str_replace(' ','-',$abc);
         $cdata=$_POST[$abc];
         $sql = "UPDATE $tt SET comment='$cdata'  WHERE id='$cid' AND $elementField='$element'" ;
         echo $sql;
