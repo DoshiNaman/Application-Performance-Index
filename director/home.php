@@ -44,7 +44,7 @@ echo '
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>API HOME</title>
+<title>Director</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,12 +58,15 @@ echo '
 </head>
 <body>
     <div class="container">
-        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a><a href="javascript:void(0)" class="text-decoration-none">&nbsp;</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a><a href="javascript:void(0)" class="text-decoration-none">&nbsp;</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
         <div class="row p-2">
-            <div class="col-lg m-2 p-2 shadow p-3 mb-1 bg-body rounded border border border-light">
+            <div class="col-lg m-2 p-2 shadow p-3 mb-1 bg-body rounded border border border-light" id="tab">
+                <div class="mb-3">
+                    <input type="text" id="search" class="form-control" placeholder="Search BY Name OF Faculty...">
+                </div>
                 <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                 <table class="table table-hover" id="table22">
                 <thead>
@@ -88,10 +91,11 @@ echo '
                     if (mysqli_num_rows($result) > 0) {
                         while($row = mysqli_fetch_assoc($result)) {
                             if($row["locked"]==1){
+                                
                             echo'    
                             <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>TLP</td>
                                 <td>'.$row['subject'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -116,7 +120,13 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["subject"].'_subject_TLP_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_TLP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                if($row["comment"]){
+                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_TLP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>    ';                     
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_TLP_'.$row["id"].'" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                             </tr>
@@ -131,14 +141,20 @@ echo '
                                 </div>
                                 <div class="modal-body">
                                     <!--<form method="POST" action="" class="p-2" enctype="multipart/form-data">-->
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Teaching Learning Process
+                                    </div>
                                     <div class="form-group p-2">
-                                        <label for="sem">Semester</label>
-                                        <input type="text" class="form-control" value="Sem'.$row["sem"].'" id="sub" name="subCode" readonly>
+                                        <label for="sub">Sem</label>
+                                        <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Subject Code</label>
                                         <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                    </div>
+                                    <div class="form-group p-2">
+                                        <label for="sub">Subject Name</label>
+                                        <input type="text" class="form-control" value="'.$row["name"].'" id="subName" name="subName" readonly>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="schedule">No.of Scheduled classes/week</label>
@@ -150,7 +166,7 @@ echo '
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="attach">Attachment &nbsp;
-                                        <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                        <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                     </div>
                                     
                                 </div>
@@ -172,11 +188,11 @@ echo '
                     if (mysqli_num_rows($result) > 0) {
                         
                         while($row = mysqli_fetch_assoc($result)) {
-                            if($row["locked"]==1){
+                            if($row["locked"]==1){                                
                                 echo ' <tr>
 
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>GR</td>
                                     <td>'.$row['subject'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -201,7 +217,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["subject"].'_subject_GR_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_GR_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                               
+                                    
+                                    if($row["comment"]){
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_GR_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>';                     
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'
+                                                                   
                                     </div>
                                     </td>
                                 </tr>
@@ -216,18 +240,20 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        GTU Result
+                                    </div>
                                         <div class="form-group p-2">
-                                            <label for="subC">Subject Code</label>
-                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="subC" name="subCode" readonly>
+                                            <label for="sub">Sem</label>
+                                            <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="subN">Subject Name</label>
-                                            <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subN" name="subName" readonly>
+                                            <label for="sub">Subject Code</label>
+                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="y">Academic Year</label>
-                                            <input type="text" class="form-control" id="y" value="'.$row["year"].'" name="year" readonly>
+                                            <label for="sub">Subject Name</label>
+                                            <input type="text" class="form-control" value="'.$row["subjectName"].'" id="subName" name="subName" readonly>
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="rI">Result of subject (Institute)</label>
@@ -239,7 +265,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -254,92 +280,92 @@ echo '
                         //GR no entry.
                     }
 
-                    $sql = "SELECT * FROM DISC WHERE id='".$id."'";
-                    $result = mysqli_query($conn, $sql);
-                    if (mysqli_num_rows($result) > 0) {
+                    // $sql = "SELECT * FROM DISC WHERE id='".$id."'";
+                    // $result = mysqli_query($conn, $sql);
+                    // if (mysqli_num_rows($result) > 0) {
                         
-                        while($row = mysqli_fetch_assoc($result)) {
-                            if($row["locked"]==1){
-                                echo ' <tr>
-                                    <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
-                                    <td>DISC</td>
-                                    <td>'.$row['id'].'</td>
-                                    <td>'.$row['point'].'</td>
-                                    <td>
-                                    <div class="row">
-                                    <div class="col-auto">
-                                    <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["id"].'DISC"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
-                                    <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
-                                    </div>
-                                    <div class="col-auto">
-                                    <button type="submit" name="comment" id="commentBtn" value="DISC_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
-                                    </div>
-                                    </div>
-                                    </td>
-                                    <td>
-                                    <div class="row">
-                                    <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#DISC'.$row["id"].'">VIEW</button></div>
-                                    ';
-                                    if($row["verify"]==1){
-                                        echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["id"].'_DISC" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
-                                    }
-                                    else{
-                                        echo'<div class="col-auto"><button type="submit" name="verify" value="DISC_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
-                                    }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
-                                    </div>
-                                    </td>
-                                </tr>
-                                <!-- Modal -->
-                                <div class="modal fade" id="DISC'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                    <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title text-dark" id="exampleModalCenterTitle">Edit Details</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </button>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body mt-0 pt-0">
-                                        <hr>
-                                        <div class="form-group p-2">
-                                            <label for="subC">Id</label>
-                                            <input type="text" class="form-control" value="'.$row["id"].'" id="subC" name="subCode" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No of times Late Punch</label>
-                                            <input type="number" min="0" max="100" value="'.$row["TLP"].'" class="form-control" id="nooftlp" name="nooftlp" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No. of LWP</label>
-                                            <input type="number" min="0" max="100" value="'.$row["LWP"].'" class="form-control" id="nooflwp" name="nooflwp" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No. of Balanced leave</label>
-                                            <input type="number" min="0" max="5" class="form-control" value="'.$row["BL"].'" id="noofbl" name="noofbl" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No .of memo/justification/clarification</label>
-                                            <input type="number" min="0" max="100" class="form-control" value="'.$row["MJC"].'" id="noofm" name="noofm" readonly>
-                                        </div>
-                                        <div class="form-group p-2">
-                                            <label for="subN">No .of Fine</label>
-                                            <input type="number" min="0" max="100" value="'.$row["F"].'" class="form-control" id="nooff" name="nooff" readonly>
-                                        </div>
+                    //     while($row = mysqli_fetch_assoc($result)) {
+                    //         if($row["locked"]==1){
+                    //             echo ' <tr>
+                    //                 <td>'.$i.'</td>
+                    //                 <td class="name">'.$name.'</td>
+                    //                 <td>DISC</td>
+                    //                 <td>'.$row['id'].'</td>
+                    //                 <td>'.$row['point'].'</td>
+                    //                 <td>
+                    //                 <div class="row">
+                    //                 <div class="col-auto">
+                    //                 <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["id"].'DISC"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
+                    //                 <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
+                    //                 </div>
+                    //                 <div class="col-auto">
+                    //                 <button type="submit" name="comment" id="commentBtn" value="DISC_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
+                    //                 </div>
+                    //                 </div>
+                    //                 </td>
+                    //                 <td>
+                    //                 <div class="row">
+                    //                 <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#DISC'.$row["id"].'">VIEW</button></div>
+                    //                 ';
+                    //                 if($row["verify"]==1){
+                    //                     echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["id"].'_DISC" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
+                    //                 }
+                    //                 else{
+                    //                     echo'<div class="col-auto"><button type="submit" name="verify" value="DISC_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
+                    //                 }
+                    //                 echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                    //                 </div>
+                    //                 </td>
+                    //             </tr>
+                    //             <!-- Modal -->
+                    //             <div class="modal fade" id="DISC'.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    //             <div class="modal-dialog modal-dialog-centered" role="document">
+                    //                 <div class="modal-content">
+                    //                 <div class="modal-header">
+                    //                     <h5 class="modal-title text-dark" id="exampleModalCenterTitle">Edit Details</h5>
+                    //                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    //                     </button>
+                    //                     </button>
+                    //                 </div>
+                    //                 <div class="modal-body mt-0 pt-0">
+                    //                     
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subC">Id</label>
+                    //                         <input type="text" class="form-control" value="'.$row["id"].'" id="subC" name="subCode" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No of times Late Punch</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["TLP"].'" class="form-control" id="nooftlp" name="nooftlp" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No. of LWP</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["LWP"].'" class="form-control" id="nooflwp" name="nooflwp" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No. of Balanced leave</label>
+                    //                         <input type="number" min="0" max="5" class="form-control" value="'.$row["BL"].'" id="noofbl" name="noofbl" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No .of memo/justification/clarification</label>
+                    //                         <input type="number" min="0" max="100" class="form-control" value="'.$row["MJC"].'" id="noofm" name="noofm" readonly>
+                    //                     </div>
+                    //                     <div class="form-group p-2">
+                    //                         <label for="subN">No .of Fine</label>
+                    //                         <input type="number" min="0" max="100" value="'.$row["F"].'" class="form-control" id="nooff" name="nooff" readonly>
+                    //                     </div>
                                         
-                                    </div>
-                                    </div>
-                                </div>
-                                </div>
-                                ';
-                                $i=$i+1;
-                            }
-                        }
+                    //                 </div>
+                    //                 </div>
+                    //             </div>
+                    //             </div>
+                    //             ';
+                    //             $i=$i+1;
+                    //         }
+                    //     }
                         
-                    } else {
-                        //DISC no entry.
-                    }
+                    // } else {
+                    //     //DISC no entry.
+                    // }
 
                     $sql = "SELECT * FROM DP WHERE id='".$id."'";
                     $result = mysqli_query($conn, $sql);
@@ -349,7 +375,7 @@ echo '
                                 echo ' <tr>
 
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>DP</td>
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -374,7 +400,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_DP_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_DP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                    if($row["comment"]){
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_DP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>    ';                     
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'
+                                                              
                                     </div>
                                     </td>
                                 </tr>
@@ -388,7 +422,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Departmental Portfolio
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="sub">Subject Code</label>
                                             <input type="text" class="form-control" value="'.$row["name"].'" id="sub" name="port" readonly>
@@ -403,7 +439,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp;
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -426,7 +462,7 @@ echo '
                                 echo ' <tr>
 
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>IP</td>
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -451,7 +487,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_IP_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_IP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                    if($row["comment"]){
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_IP_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>   ';                     
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'
+                                                                  
                                     </div>
                                     </td>
                                 </tr>
@@ -465,7 +509,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Institute Portfolio
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="sub">Subject Code</label>
                                             <input type="text" class="form-control" value="'.$row["name"].'" id="sub" name="port" readonly>
@@ -480,7 +526,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp;
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -503,7 +549,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>CTS</td>
                                     <td>'.$row['date'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -528,7 +574,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_CTS_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_CTS_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                    if($row["comment"]){
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_CTS_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>   ';                     
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'
+                                                                  
                                     </div>
                                     </td>
                                 </tr>
@@ -544,7 +598,9 @@ echo '
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
                                         <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Contribution to Society
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -555,7 +611,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -578,7 +634,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>RAA1</td>
                                     <td>'.$row['date'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -603,7 +659,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_RAA1_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA1_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                    if($row["comment"]){
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA1_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>    ';                     
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'
+                                                                
                                     </div>
                                     </td>
                                 </tr>
@@ -618,7 +682,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Seminar, Workshop, Technical or motivational Training organized
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -641,7 +707,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -664,7 +730,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA2</td>
                                 <td>'.$row['date'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -689,7 +755,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_RAA2_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA2_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA2_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>    ';                     
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
+                                                              
                                 </div>
                                 </td>
                                 </tr>
@@ -704,7 +778,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        FDP/ STTP organized
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -731,7 +807,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -754,7 +830,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA3</td>
                                 <td>'.$row['date'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -779,7 +855,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_RAA3_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'  <div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA3_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                                
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'  <div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA3_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                                ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>    
                                 
@@ -795,7 +879,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Participation in MOOCS courses
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -814,7 +900,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -837,7 +923,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA4</td>
                                 <td>'.$row['date'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -862,7 +948,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_RAA4_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA4_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_RAA4_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
@@ -877,7 +971,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Membership of Associations or Professional Bodies
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -896,7 +992,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -919,7 +1015,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA5</td>
                                 <td>'.$row['name'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -944,7 +1040,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA5_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA5_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA5_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
@@ -959,7 +1063,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Research paper publication in peer reviewed journal
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["name"].'" id="subC" name="name" readonly>
@@ -987,7 +1093,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1010,7 +1116,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA6</td>
                                 <td>'.$row['name'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -1035,7 +1141,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA6_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA6_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA6_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
@@ -1050,7 +1164,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Research paper publication in Conference
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["name"].'" id="subC" name="name" readonly>
@@ -1070,7 +1186,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1093,7 +1209,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA7</td>
                                 <td>'.$row['title'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -1118,7 +1234,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["title"].'_title_RAA7_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["title"].'_title_RAA7_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["title"].'_title_RAA7_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
@@ -1133,7 +1257,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Books authored
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["title"].'" id="subC" name="title" readonly>
@@ -1152,7 +1278,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1175,7 +1301,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA8</td>
                                 <td>'.$row['subject'].'</td>
                                 <td>'.$row['point'].'</td>
@@ -1200,7 +1326,15 @@ echo '
                                 else{
                                     echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["subject"].'_subject_RAA8_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_RAA8_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["subject"].'_subject_RAA8_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
@@ -1215,14 +1349,20 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        E-content
+                                    </div>
                                         <div class="form-group p-2">
-                                            <label for="subN">Subject code</label>
-                                            <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["subject"].'" readonly>
+                                            <label for="sub">Sem</label>
+                                            <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
                                         </div>
                                         <div class="form-group p-2">
-                                            <label for="subN">Name of subject</label>
-                                            <input type="text" class="form-control" id="name" name="name" value="'.$row["name"].'" readonly>
+                                            <label for="sub">Subject Code</label>
+                                            <input type="text" class="form-control" value="'.$row["subject"].'" id="sub" name="subCode" readonly>
+                                        </div>
+                                        <div class="form-group p-2">
+                                            <label for="sub">Subject Name</label>
+                                            <input type="text" class="form-control" value="'.$row["name"].'" id="name" name="name" readonly>
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="subN">Link</label>
@@ -1230,7 +1370,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1253,7 +1393,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>RAA9</td>
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -1278,7 +1418,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA9_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                     </div>
                                     </td>
                                 </tr>
@@ -1293,7 +1441,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Patent
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="sem">Patent\'s Name</label>
                                             <input type="text" class="form-control" id="link" name="link" value="'.$row["name"].'" readonly>
@@ -1304,7 +1454,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1327,37 +1477,45 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                 <td>'.$i.'</td>
-                                <td>'.$name.'</td>
+                                <td class="name">'.$name.'</td>
                                 <td>RAA10</td>
-                                <td>'.$row['enrollment'].'</td>
+                                <td>'.$row['name'].'</td>
                                 <td>'.$row['point'].'</td>
                                 <td>
                                 <div class="row">
                                 <div class="col-auto">
-                                <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["enrollment"].''.$row["id"].'RAA10"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
+                                <input type="text" class="form-control col-4" id="commentdata" name="commentdata'.$row["name"].''.$row["id"].'RAA10"  placeholder="Type comment.." value="'.$row["comment"].'" style="padding-y: 0.25rem;padding-x: 0.5rem;font-size: 0.875rem;border-radius: 0.25rem;">
                                 <!--<input type="hidden" name="c_id" value="'.$row["id"].'"/>-->
                                 </div>
                                 <div class="col-auto">
-                                <button type="submit" name="comment" id="commentBtn" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
+                                <button type="submit" name="comment" id="commentBtn" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-outline-dark btn-sm">POST</button>
                                 </div>
                                 </div>
                                 </td>
                                 <td>
                                 <div class="row">
-                                <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["enrollment"].''.$row["id"].'">VIEW</button></div>
+                                <div class="col-auto"><button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["name"].''.$row["id"].'">VIEW</button></div>
                                 ';
                                 if($row["verify"]==1){
-                                    echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
+                                    echo'<div class="col-auto"><button type="submit" name="v1" value="'.$row["name"].'_name_RAA10" class="btn btn-success btn-sm" disabled>VERIFIED</button></div>';
                                 }
                                 else{
-                                    echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
+                                    echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                 }
-                                echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["enrollment"].'_enrollment_RAA10_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["name"].'_name_RAA10_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                 </div>
                                 </td>
                                 </tr>
                                 <!-- Modal -->
-                                <div class="modal fade" id="RAA10'.$row["enrollment"].''.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal fade" id="RAA10'.$row["name"].''.$row["id"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
@@ -1367,11 +1525,11 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
-                                        <div class="form-group p-2">
-                                            <label for="subN">Enrollment</label>
-                                            <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["enrollment"].'" readonly>
-                                        </div>
+                                        
+                                    <div class="modal-body mt-0 pt-0">
+                                        <div class="alert alert-primary text-center p-1" role="alert">
+                                        Research Guidance
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subN">Name</label>
                                             <input type="text" class="form-control" id="subCode" name="subCode" value="'.$row["name"].'" readonly>
@@ -1386,7 +1544,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1409,7 +1567,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>INV</td>
                                     <td>'.$row['date'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -1434,7 +1592,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["date"].'_date_INV_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_INV_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["date"].'_date_INV_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                     </div>
                                     </td>
                                 </tr>
@@ -1449,7 +1615,9 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Invited For
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Date</label>
                                             <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1468,7 +1636,7 @@ echo '
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1491,7 +1659,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>AO</td>
                                     <td>'.$row['title'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -1516,7 +1684,15 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="'.$row["title"].'_title_AO_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["title"].'_title_AO_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    
+                                if($row["comment"]){
+                                    
+                                    echo'<div class="col-auto"><button type="submit" name="reject" value="'.$row["title"].'_title_AO_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                }
+                                else{
+                                    echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                }
+                                echo'
                                     </div>
                                     </td>
                                 </tr>
@@ -1531,14 +1707,16 @@ echo '
                                         </button>
                                     </div>
                                     <div class="modal-body mt-0 pt-0">
-                                        <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Any other
+                                    </div>
                                         <div class="form-group p-2">
                                             <label for="subC">Title</label>
                                             <input type="text" class="form-control" value="'.$row["title"].'" id="title" name="title" readonly>
                                         </div>
                                         <div class="form-group p-2">
                                             <label for="attach">Attachment &nbsp; 
-                                            <a href="../'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                            <a href="../document/'.$row["id"].'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         </div>
                                     </div>
                                     </div>
@@ -1591,6 +1769,50 @@ $(".modal").each(function(){
 $("#table22").find("tr").find("#commentdata").each(function(){
     $(this).attr("name",$(this).attr("name").replace(/[@.$%&^]/g,\'-\').replace(/\s+/g,\'-\'));
 })
+
+$("#search").on("input",function(e){
+    if($(this).val().length > 0){
+        let val = $(this).val()
+        $("#table22 > tbody").children("tr").hide();
+        $(".name").each(function(){
+            var result = ($(this).text()).toLowerCase().indexOf(val.toLowerCase())>=0;
+            if(result){
+                $(this).parent().show();
+            }
+        })
+    }
+    else{
+        $("#table22 > tbody").children("tr").show();
+    }
+    
+});
+
+function createPDF() {
+    var sTable = document.getElementById("table22").innerHTML;
+
+    var style = "<style>";
+    style = style + "table {width: 100%;font: 17px Calibri;}";
+    style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
+    style = style + "padding: 2px 3px;text-align: center;}";
+    style = style + "</style>";
+
+    // CREATE A WINDOW OBJECT.
+    var win = window.open("", "", "height=700,width=700");
+
+    win.document.write("<html><head>");
+    win.document.write("<title>Profile</title>");   // <title> FOR PDF HEADER.
+    win.document.write(style);          // ADD STYLE INSIDE THE HEAD TAG.
+    win.document.write("</head>");
+    win.document.write("<body>");
+    win.document.write(sTable);         // THE TABLE CONTENTS INSIDE THE BODY TAG.
+    win.document.write("</body></html>");
+
+    win.document.close(); 	// CLOSE THE CURRENT WINDOW.
+
+    win.print();    // PRINT THE CONTENTS.
+}
+
+
     </script> 
     
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1698,7 +1920,7 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $abc="commentdata$element$id$tt";
+        $abc="commentdata$element$cid$tt";
         $abc= str_replace('@','-',$abc);
         $abc= str_replace('.','-',$abc);
         $abc= str_replace('$','-',$abc);

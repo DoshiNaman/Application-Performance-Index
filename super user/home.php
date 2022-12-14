@@ -18,7 +18,7 @@ echo '
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>API HOME</title>
+<title>SUPER USER</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,7 @@ echo '
 </head>
 <body>
     <div class="container">
-        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="activity.php">Portfolio/Subject</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
@@ -91,7 +91,7 @@ echo '
                             <td>'.$i.'</td>
                             <td>'.$row['id'].'</td>
                             <td>'.$row['role'].'</td>
-                            <td><button type="submit" name="delete" value="'.$row["id"].'" class="btn btn-sm btn-danger">Delete</button></td>
+                            <td><button type="submit" name="delete" value="'.$row["id"].'" class="btn btn-sm btn-danger">Delete</button> <button type="submit" name="reset" value="'.$row["id"].'" class="btn btn-sm btn-primary">Reset</button></td>
                             </tr>';
                         }
                         else{
@@ -99,7 +99,7 @@ echo '
                             <td>'.$i.'</td>
                             <td>'.$row['id'].'</td>
                             <td>'.$row['role'].'</td>
-                            <td><button type="submit" name="delete" class="btn btn-sm btn-danger" disabled>Delete</button></td>
+                            <td><button type="submit" name="delete" class="btn btn-sm btn-danger" disabled>Delete</button> <button type="submit" name="reset" class="btn btn-sm btn-primary" disabled>Reset</button></td>
                             </tr>';
                         }
                         $i=$i+1;
@@ -270,6 +270,21 @@ if(isset($_POST["delete"])){
         echo "<script>location.href = 'home.php'; </script>";
     } else {
         $_SESSION["danger"]=$str.' Not Deleted Successfully';
+        echo "<script>location.href = 'home.php';</script>";
+        //echo "Error updating record: " . $conn->error;
+    }
+}
+
+if(isset($_POST["reset"])){
+    $str=$_POST["reset"];
+    $pass = password_hash((string)'123456',PASSWORD_DEFAULT);
+    $sql = "UPDATE Profile SET password='$pass' WHERE id='$str'" ;
+    
+    if ($conn->query($sql) === TRUE) {
+        $_SESSION["success"]=$str.' Password Reset Successfully';
+        echo "<script>location.href = 'home.php'; </script>";
+    } else {
+        $_SESSION["danger"]=$str.' Password Not Deleted Successfully';
         echo "<script>location.href = 'home.php';</script>";
         //echo "Error updating record: " . $conn->error;
     }

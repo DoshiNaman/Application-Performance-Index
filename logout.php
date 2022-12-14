@@ -8,7 +8,7 @@ foreach ($helper as $key){
 }
 
 echo'<script>
-    location.href = "../index.php";
+    location.href = "index.php";
     </script>';
 
 ?>

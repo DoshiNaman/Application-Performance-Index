@@ -26,12 +26,15 @@ if(isset($_SESSION["id"]) AND isset($_SESSION["fprofile"])){
         <body>
         <div class="container">
             <form class="mt-5" action="" method="POST" enctype="multipart/form-data">
-                <div class="mb-3">
+            <div class="alert alert-primary text-center" role="alert">
+              A little goes a long way.... Change Password after Successfully build your Profile....
+            </div>    
+            <div class="mb-3">
                     <label for="nameType" class="form-label">Name</label>
                     <input type="text" name="name" class="form-control" id="nameType" required>
                 </div>
                 <div class="mb-3">
-                    <label for="imgType" class="form-label">Select Avtar</label>
+                    <label for="imgType" class="form-label">Select Avtar <i>(Max 10 MB Image)</i></label>
                     <input type="file" name="image" accept="image/png, image/jpg, image/jpeg" class="form-control" id="image" required>
                 </div>
                 <button type="submit" name="submit" class="btn btn-primary">Submit</button>

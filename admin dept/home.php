@@ -44,7 +44,7 @@ echo '
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>API HOME</title>
+<title>Admin Dept</title>
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,12 +58,15 @@ echo '
 </head>
 <body>
     <div class="container">
-        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="activity.php">Portfolio/Subject</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
         <div class="row p-2">
             <div class="col-lg m-2 p-2 shadow p-3 mb-1 bg-body rounded border border border-light">
+                <div class="mb-3">
+                    <input type="text" id="search" class="form-control" placeholder="Search BY Name OF Faculty...">
+                </div>
                 <form method="POST" action="" class="p-2" enctype="multipart/form-data">
                 <table class="table table-hover" id="table22">
                 <thead>
@@ -91,7 +94,7 @@ echo '
                             if($row["locked"]==1){
                                 echo ' <tr>
                                     <td>'.$i.'</td>
-                                    <td>'.$name.'</td>
+                                    <td class="name">'.$name.'</td>
                                     <td>DISC</td>
                                     <td>'.$row['id'].'</td>
                                     <td>'.$row['point'].'</td>
@@ -116,7 +119,14 @@ echo '
                                     else{
                                         echo'<div class="col-auto"><button type="submit" name="verify" value="DISC_'.$row["id"].'" class="btn btn-success btn-sm">VERIFY</button></div>';
                                     }
-                                    echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              
+                                    if($row["comment"]){
+                                    
+                                        echo'<div class="col-auto"><button type="submit" name="reject" value="DISC_'.$row["id"].'" class="btn btn-danger btn-sm">REJECT</button></div>                              ';
+                                    }
+                                    else{
+                                        echo'<div class="col-auto"><button type="submit" name="reject" class="btn btn-danger btn-sm" disabled>REJECT</button></div>';
+                                    }
+                                    echo'                            
                                     </div>
                                     </td>
                                 </tr>
@@ -210,6 +220,23 @@ echo '
         $(this).attr("name",$(this).attr("name").replace(/\@/g,\'-\'));
         $(this).attr("name",$(this).attr("name").replace(/\./g,\'-\'));
     })
+    
+$("#search").on("input",function(e){
+    if($(this).val().length > 0){
+        let val = $(this).val()
+        $("#table22 > tbody").children("tr").hide();
+        $(".name").each(function(){
+            var result = ($(this).text()).toLowerCase().indexOf(val.toLowerCase())>=0;
+            if(result){
+                $(this).parent().show();
+            }
+        })
+    }
+    else{
+        $("#table22 > tbody").children("tr").show();
+    }
+    
+});
 
     </script> 
     
@@ -320,7 +347,7 @@ if(isset($_POST["comment"])){
         $elementField=$arr[1];
         $tt=$arr[2];
         $cid=$arr[3];
-        $abc="commentdata$element$id$tt";
+        $abc="commentdata$element$cid$tt";
         $abc= str_replace('@','-',$abc);
         $abc= str_replace('.','-',$abc);
         $abc= str_replace('$','-',$abc);

@@ -3,6 +3,25 @@
 $tpoint=0;
 $vpoint=0;
 
+$tlppoint=0;
+$grpoint=0;
+$descpoint=0;
+$dppoint=0;
+$ippoint=0;
+$ctspoint=0;
+$raa1point=0;
+$raa2point=0;
+$raa3point=0;
+$raa4point=0;
+$raa5point=0;
+$raa6point=0;
+$raa7point=0;
+$raa8point=0;
+$raa9point=0;
+$raa10point=0;
+$invpoint=0;
+$aopoint=0;
+
 include '../db.php';
 echo '
 <!DOCTYPE html>
@@ -39,7 +58,7 @@ echo '
 </head>
 <body>
     <div class="container">
-     <br/><a href="profile.php">Profile</a><a class="ms-3" href="home.php">Home</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+     <br/><a href="profile.php">Profile</a><a class="ms-3" href="home.php">Home</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
      <div class="form-group">
       <p class="form-control"> Verified or Locked Activity </p> 
       <table class="table table-hover" id="table2">
@@ -57,6 +76,7 @@ echo '
       <tbody>
       ';
       $i=1;
+
       if(isset($_SESSION["id"])){
         $a=$_SESSION["id"];
         //TLP
@@ -77,7 +97,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$tlppoint=$tlppoint+$row["point"];}
           }
         }
         //GR
@@ -98,7 +118,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$grpoint=$grpoint+$row["point"];}
           }
         }
         //DISC
@@ -119,7 +139,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$descpoint=$descpoint+$row["point"];}
           }
         }
         //DP
@@ -140,7 +160,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$dppoint=$dppoint+$row["point"];}
           }
         }
         //IP
@@ -161,7 +181,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$ippoint=$ippoint+$row["point"];}
           }
         }
         //CTC
@@ -182,7 +202,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$ctspoint=$ctspoint+$row["point"];}
           }
         }
         //RAA1
@@ -203,7 +223,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa1point=$raa1point+$row["point"];}
           }
         }
         //RAA2
@@ -224,7 +244,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa2point=$raa2point+$row["point"];}
           }
         }
         //RAA3
@@ -245,7 +265,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa3point=$raa3point+$row["point"];}
           }
         }
         //RAA4
@@ -266,7 +286,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa4point=$raa4point+$row["point"];}
           }
         }
         //RAA5
@@ -287,7 +307,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa5point=$raa5point+$row["point"];}
           }
         }
         //RAA6
@@ -308,7 +328,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa6point=$raa6point+$row["point"];}
           }
         }
         //RAA7
@@ -329,7 +349,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa7point=$raa7point+$row["point"];}
           }
         }
         //RAA8
@@ -350,7 +370,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa8point=$raa8point+$row["point"];}
           }
         }
         //RAA9
@@ -371,7 +391,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa9point=$raa9point+$row["point"];}
           }
         }
         //RAA10
@@ -383,7 +403,7 @@ echo '
               echo ' <tr>
               <th scope="row">'.$i.'</th>
               <td>RAA10</td>
-              <td>'.$row["enrollment"].'</td>
+              <td>'.$row["name"].'</td>
               <td>'.$row["point"].'</td>
               <td>'.$row["verify"].'</td>
               <td>'.$row["locked"].'</td>
@@ -392,7 +412,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$raa10point=$raa10point+$row["point"];}
           }
         }
         //INV
@@ -413,7 +433,7 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$invpoint=$invpoint+$row["point"];}
           }
         }
         //AO
@@ -434,13 +454,33 @@ echo '
               $i=$i+1;
               $tpoint=$tpoint+$row["point"];
             }
-            if($row["verify"]==1){$vpoint=$vpoint+$row["point"];}
+            if($row["verify"]==1){$aopoint=$aopoint+$row["point"];}
           }
         }
       }
       else{
         echo"<script>location.href = '../index.php';</script>";
       }
+
+
+      ($tlppoint < 50 )? $vpoint += $tlppoint : $vpoint += 50;
+      ($grpoint < 100) ? $vpoint += $grpoint : $vpoint += 100;
+      ($descpoint < 40) ? $vpoint += $descpoint : $vpoint += 40;
+      ($dppoint < 20) ? $vpoint += $dppoint : $vpoint += 20;
+      ($ippoint < 30) ? $vpoint += $ippoint : $vpoint += 30;
+      ($ctspoint < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($invpoint < 5) ? $vpoint += $invpoint : $vpoint += 5;
+      ($aopoint < 15) ? $vpoint += $aopoint : $vpoint += 15;
+      ($raa1point < 10) ? $vpoint += $raa10point : $vpoint += 10;
+      ($raa2point < 10) ? $vpoint += $raa2point : $vpoint += 10;
+      ($raa3point < 10) ? $vpoint += $raa3point : $vpoint += 10;
+      ($raa4point < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($raa5point < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($raa6point < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($raa7point < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($raa8point < 10) ? $vpoint += $ctspoint : $vpoint += 10;
+      ($raa9point < 20) ? $vpoint += $ctspoint : $vpoint += 20;
+      ($raa10point < 30) ? $vpoint += $ctspoint : $vpoint += 30;
 
       echo'</tbody>
       </table>

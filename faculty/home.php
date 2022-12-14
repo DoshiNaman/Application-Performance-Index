@@ -10,7 +10,7 @@ if(!isset($_SESSION["id"]) AND !isset($_SESSION["fprofile"]) AND $_SESSION["fpro
 }
 
 $subjectNameArr=array();
-echo '<script> var subjectNameArr = {}; </script>';
+echo '<script> var subjectNameArr = {};var semdict = {}</script>';
 $sqll = "SELECT * FROM Subject order by sem,code";
 $resultt = mysqli_query($conn, $sqll);
 if (mysqli_num_rows($resultt) > 0) {
@@ -21,6 +21,7 @@ if (mysqli_num_rows($resultt) > 0) {
         $subjectNameArr[$key1][$key] = $value;
         echo '<script>
         subjectNameArr["'.$key.'/'.$key1.'"] = "'.$value.'";
+        semdict["'.$key.'"] = "'.$key1.'";
          </script>';
     }
 }
@@ -29,6 +30,14 @@ echo "<script>
 function getName(p1){
     return subjectNameArr[p1];
 }
+function getKeyByValue(value) {
+    var arr = [];
+    for (var key in semdict)
+        if (semdict.hasOwnProperty(key) && semdict[key] === value)
+            arr.push(key);
+    return arr;
+}
+// console.log(getKeyByValue('3'))
 // console.log(getName('3130004/3'))
 </script>";
 
@@ -39,7 +48,7 @@ echo '
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>API HOME</title>
+    <title>Fac</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -53,7 +62,7 @@ echo '
 </head>
 <body>
     <div class="container">
-     <br/><a href="profile.php">Profile</a><a class="ms-3" href="activity.php">Activity</a><a class="ms-3 float-end" href="logout.php">Logout</a><hr>
+     <br/><a href="profile.php">Profile</a><a class="ms-3" href="activity.php">Activity</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
@@ -92,8 +101,10 @@ echo '
                     </select>
                   </div>
                   <div class="form-group p-2">
-                    <label for="sub">Subject Code</label>
-                    <input type="text" class="form-control" id="sub" name="subCode" required>
+                    <label for="sem">Subject Code</label>
+                    <select class="form-control" name="subdrop" id="subdrop">
+                    <option value="0">Select Subject Code</option>
+                    </select>
                   </div>
                   <div class="form-group p-2">
                     <label for="sub">Subject Name</label>
@@ -108,7 +119,7 @@ echo '
                     <input type="number" min="0" class="form-control" id="actual" name="actualClass" required>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitTLP" class="btn btn-primary p-2 btn-sm">Submit</button>
@@ -132,8 +143,10 @@ echo '
                     </select>
                   </div>
                   <div class="form-group p-2">
-                    <label for="subC">Subject Code</label>
-                    <input type="text" class="form-control" id="subC" name="subCode" required>
+                    <label for="sem">Subject Code</label>
+                    <select class="form-control" name="subdrop" id="subdrop">
+                    <option value="0">Select Subject Code</option>
+                    </select>
                   </div>
                   <div class="form-group p-2">
                     <label for="subN">Subject Name</label>
@@ -152,7 +165,7 @@ echo '
                     <input type="number" min="0" max="100" class="form-control" id="rG" name="resultGtu" step="0.01" required>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitGR" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -221,7 +234,7 @@ echo '
                     </select>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitDP" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -264,7 +277,7 @@ echo '
                     </select>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitIP" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -282,7 +295,7 @@ echo '
                     <input type="date" max="'.date('Y-m-d').'" class="form-control" id="date" name="date" required>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitCTS" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -337,7 +350,7 @@ echo '
                             </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA1" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -371,7 +384,7 @@ echo '
                             <input type="number" min="0" max="10" class="form-control" id="nod" name="nod" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA2" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -397,7 +410,7 @@ echo '
                             <input type="date" max="'.date('Y-m-d').'" class="form-control" id="dateoe" name="dateoe" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA3" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -427,7 +440,7 @@ echo '
                             <input type="number" min="0" class="form-control" id="nom" name="nom" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA4" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -467,7 +480,7 @@ echo '
                             <input type="text" class="form-control" id="vpage" name="vpage" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA5" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -498,7 +511,7 @@ echo '
                             </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA6" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -531,7 +544,7 @@ echo '
                             </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA7" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -555,19 +568,21 @@ echo '
                           </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="subN">Name of subject</label>
-                            <input type="text" class="form-control" id="subNameraa8" name="subName" required readonly>
+                          <label for="sem">Subject Code</label>
+                          <select class="form-control" name="subdrop" id="subdrop">
+                          <option value="0">Select Subject Code</option>
+                          </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="subN">Subject code</label>
-                            <input type="text" class="form-control" id="subC" name="subCode" required>
+                            <label for="subN">Name of subject</label>
+                            <input type="text" class="form-control" id="subNameraa8" name="subName" required readonly>
                         </div>
                         <div class="form-group p-2">
                             <label for="subN">Link</label>
                             <input type="text" class="form-control" id="link" name="link" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA8" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -591,7 +606,7 @@ echo '
                             </select>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA9" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -600,10 +615,6 @@ echo '
                     <!--raa10-->
                     <form method="POST" action="" class="p-2" id="raa10" enctype="multipart/form-data">
                         <hr>
-                        <div class="form-group p-2">
-                            <label for="subN">Enrollment No</label>
-                            <input type="text" min="0" class="form-control" id="enroll" name="enroll" required>
-                        </div>
                         <div class="form-group p-2">
                             <label for="sem">Program</label>
                             <select class="form-control" name="name" id="o1">
@@ -623,7 +634,7 @@ echo '
                             <input type="text" class="form-control" id="name" name="nameou" required>
                         </div>
                         <div class="form-group p-2">
-                            <label for="attach">Attachment</label>
+                            <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                             <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                         </div>
                         <button type="submit" name="submitRAA10" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -655,7 +666,7 @@ echo '
                     <input type="text" class="form-control" id="topic" name="topic" required>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitINV" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -669,7 +680,7 @@ echo '
                     <input type="text" class="form-control" id="work" name="work" required>
                   </div>
                   <div class="form-group p-2">
-                    <label for="attach">Attachment</label>
+                    <label for="attach">Attachment <i>(Max 2 MB PDF)</i></label>
                     <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment" required>
                   </div>
                   <button type="submit" name="submitAO" class="btn btn-sm btn-primary p-2">Submit</button>
@@ -969,7 +980,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>TLP</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Teaching Learning Process" data-bs-placement="left">TLP</td>
                                 <td>'.$row["subject"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#TLP'.$row["subject"].'">EDIT</button>
@@ -987,7 +998,9 @@ echo '
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Teaching Learning Process
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Sem</label>
                                         <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
@@ -1009,8 +1022,8 @@ echo '
                                         <input type="number" min="0" value="'.$row["actualClass"].'" class="form-control" id="actual" name="actualClass">
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp;
-                                        <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp;&nbsp;
+                                        <a class="float-end" href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>';
                                     if($row["comment"]!=""){
@@ -1044,7 +1057,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>GR</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="GTU Result" data-bs-placement="left">GR</td>
                                 <td>'.$row["subject"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#GR'.$row["subject"].'">EDIT</button>
@@ -1063,7 +1076,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    GTU Result
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Sem</label>
                                         <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
@@ -1089,7 +1104,7 @@ echo '
                                         <input type="number" min="0" max="100" class="form-control" value="'.$row["resultGtu"].'" id="rG" name="resultGtu" step="0.01">
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1126,7 +1141,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>DISC</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Discipline" data-bs-placement="left">DISC</td>
                                 <td>'.$row["id"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#DISC'.$row["id"].'">EDIT</button>
@@ -1145,7 +1160,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Discipline
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Id</label>
                                         <input type="text" class="form-control" value="'.$row["id"].'" id="subC" name="subCode" readonly>
@@ -1202,7 +1219,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>DP</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Departmental Portfolio" data-bs-placement="left">DP</td>
                                 <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#DP'.$row["name"].'">EDIT</button>
@@ -1220,7 +1237,9 @@ echo '
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Departmental Portfolio
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Subject Code</label>
                                         <input type="text" class="form-control" value="'.$row["name"].'" id="sub" name="port" readonly>
@@ -1270,7 +1289,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp;
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp;
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>';
@@ -1304,7 +1323,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>IP</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Institute Portfolio" data-bs-placement="left">IP</td>
                                 <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#IP'.$row["name"].'">EDIT</button>
@@ -1322,7 +1341,9 @@ echo '
                                 </div>
                                 <div class="modal-body">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Institute Portfolio
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Portfolio Name</label>
                                         <input type="text" class="form-control" value="'.$row["name"].'" id="sub" name="port" readonly>
@@ -1372,7 +1393,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp;
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp;
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>';
@@ -1407,7 +1428,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>CTS</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Contribution to Society" data-bs-placement="left">CTS</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#CTS'.$row["date"].'">EDIT</button>
@@ -1426,7 +1447,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Contribution to Society
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1436,7 +1459,7 @@ echo '
                                         <input type="text" class="form-control" value="'.$row["activity"].'" id="subN" name="activity">
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1473,7 +1496,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA1</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Seminar, Workshop, Technical or motivational Training organized" data-bs-placement="left">RAA1</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA1'.$row["date"].'">EDIT</button>
@@ -1492,7 +1515,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Seminar, Workshop, Technical or motivational Training organized
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1546,7 +1571,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1583,7 +1608,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA2</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="FDP/ STTP organized" data-bs-placement="left">RAA2</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA2'.$row["date"].'">EDIT</button>
@@ -1602,7 +1627,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    FDP/ STTP organized
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1628,7 +1655,7 @@ echo '
                                         <input type="number" min="0" max="10" class="form-control" id="nop" name="nod" value="'.$row["days"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1665,7 +1692,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA3</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Participation in MOOCS courses" data-bs-placement="left">RAA3</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA3'.$row["date"].'">EDIT</button>
@@ -1684,7 +1711,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Participation in MOOCS courses
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1702,7 +1731,7 @@ echo '
                                         <input type="number" min="0" max="8" class="form-control" id="nop" name="nop" value="'.$row["duration"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1739,7 +1768,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA4</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Membership of Associations or Professional Bodies" data-bs-placement="left">RAA4</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA4'.$row["date"].'">EDIT</button>
@@ -1758,7 +1787,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Membership of Associations or Professional Bodies
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -1792,7 +1823,7 @@ echo '
                                         <input type="number" min="0" class="form-control" id="nom" name="nom" value="'.$row["membership"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1829,7 +1860,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA5</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Research paper publication in peer reviewed journal" data-bs-placement="left">RAA5</td>
                                 <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA5'.$row["name"].'">EDIT</button>
@@ -1848,7 +1879,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Research paper publication in peer reviewed journal
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["name"].'" id="subC" name="name" readonly>
@@ -1910,7 +1943,7 @@ echo '
                                         <input type="text" class="form-control" id="vpage" name="vpage" value="'.$row["vpage"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -1947,7 +1980,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA6</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Research paper publication in Conference" data-bs-placement="left">RAA6</td>
                                 <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA6'.$row["name"].'">EDIT</button>
@@ -1966,7 +1999,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Research paper publication in Conference
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["name"].'" id="subC" name="name" readonly>
@@ -2009,7 +2044,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2046,7 +2081,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA7</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Books authored" data-bs-placement="left">RAA7</td>
                                 <td>'.$row["title"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA7'.$row["title"].'">EDIT</button>
@@ -2065,7 +2100,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Books authored
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["title"].'" id="subC" name="title" readonly>
@@ -2131,7 +2168,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2168,7 +2205,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA8</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="E-content" data-bs-placement="left">RAA8</td>
                                 <td>'.$row["subject"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA8'.$row["subject"].'">EDIT</button>
@@ -2187,7 +2224,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    E-content
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="sub">Sem</label>
                                         <input type="text" class="form-control" value="'.$row["sem"].'" id="sem" name="sem" readonly>
@@ -2205,7 +2244,7 @@ echo '
                                         <input type="text" class="form-control" id="link" name="link" value="'.$row["link"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2242,7 +2281,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA9</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Patent" data-bs-placement="left">RAA9</td>
                                 <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA9'.$row["name"].'">EDIT</button>
@@ -2261,7 +2300,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Patent
+                                    </div>
                                     <div class="form-group p-2">
                                       <label for="subN">Patent\'s Name</label>
                                       <input type="text" class="form-control" id="name" name="name" readonly value="'.$row["name"].'">
@@ -2306,7 +2347,7 @@ echo '
                                         </select>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>';
@@ -2342,15 +2383,15 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>RAA10</td>
-                                <td>'.$row["enrollment"].'</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Research Guidance" data-bs-placement="left">RAA10</td>
+                                <td>'.$row["name"].'</td>
                                 <td><!-- Button trigger modal -->
-                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["enrollment"].'">EDIT</button>
-                                <button type="submit" name="lock" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-sm btn-success">Lock</button>
-                                <button type="submit" name="del" value="'.$row["enrollment"].'_enrollment_RAA10" class="btn btn-sm btn-danger">Del</button></td>
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#RAA10'.$row["name"].'">EDIT</button>
+                                <button type="submit" name="lock" value="'.$row["name"].'_name_RAA10" class="btn btn-sm btn-success">Lock</button>
+                                <button type="submit" name="del" value="'.$row["name"].'_name_RAA10" class="btn btn-sm btn-danger">Del</button></td>
                             </tr>
                             <!-- Modal -->
-                            <div class="modal fade" id="RAA10'.$row["enrollment"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" id="RAA10'.$row["name"].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -2361,58 +2402,12 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
-                                    <div class="form-group p-2">
-                                        <label for="subN">Name</label>
-                                        <input type="text" class="form-control" id="enrollment" name="enrollment" value="'.$row["enrollment"].'" readonly required>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Research Guidance
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="sem">Role</label>
-                                        <select class="form-control" name="name" id="name">
-                                            ';
-                                            if($row["name"]=="phd"){
-                                                echo'
-                                                <option value="0">Select One</option>
-                                                <option value="1" selected>Ph.D</option>
-                                                <option value="2">Ph.D + Thesis</option>
-                                                <option value="3">PG Dissertiation</option>
-                                                <option value="4">UG Project</option>';
-                                            }
-                                            elseif($row["name"]=="phd-thesis"){
-                                                echo'
-                                                <option value="0">Select One</option>
-                                                <option value="1">Ph.D</option>
-                                                <option value="2" selected>Ph.D + Thesis</option>
-                                                <option value="3">PG Dissertiation</option>
-                                                <option value="4">UG Project</option>';
-                                            }
-                                            elseif($row["name"]=="pg"){
-                                                echo'
-                                                <option value="0">Select One</option>
-                                                <option value="1">Ph.D</option>
-                                                <option value="2">Ph.D + Thesis</option>
-                                                <option value="3" selected>PG Dissertiation</option>
-                                                <option value="4">UG Project</option>';
-                                            }
-                                            elseif($row["name"]=="ug"){
-                                                echo'
-                                                <option value="0">Select One</option>
-                                                <option value="1">Ph.D</option>
-                                                <option value="2">Ph.D + Thesis</option>
-                                                <option value="3">PG Dissertiation</option>
-                                                <option value="4" selected>UG Project</option>';
-                                            }
-                                            else{
-                                                echo'
-                                                <option value="0">Select One</option>
-                                                <option value="1">Ph.D</option>
-                                                <option value="2">Ph.D + Thesis</option>
-                                                <option value="3">PG Dissertiation</option>
-                                                <option value="4">UG Project</option>';
-                                            }
-                                            
-                                            echo'
-                                        </select>
+                                        <label for="subN">Name</label>
+                                        <input type="text" class="form-control" id="name" name="name" value="'.$row["name"].'" readonly required>
                                     </div>
                                     <div class="form-group p-2">
                                         <label for="subN">No of candidate/team/group</label>
@@ -2423,7 +2418,7 @@ echo '
                                         <input type="text" class="form-control" id="name" name="nameou" value="'.$row["university"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2460,7 +2455,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>INV</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Invited For" data-bs-placement="left">INV</td>
                                 <td>'.$row["date"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#INV'.$row["date"].'">EDIT</button>
@@ -2479,7 +2474,9 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Invited For
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Date</label>
                                         <input type="text" class="form-control" value="'.$row["date"].'" id="subC" name="date" readonly>
@@ -2519,7 +2516,7 @@ echo '
                                         <input type="text" class="form-control" id="topic" name="topic" value="'.$row["topic"].'" required>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2556,7 +2553,7 @@ echo '
                         if($row["locked"]==0){
                             echo ' <tr>
                                 <th scope="row">'.$i.'</th>
-                                <td>AO</td>
+                                <td data-bs-toggle="tooltip" data-bs-title="Any other" data-bs-placement="left">AO</td>
                                 <td>'.$row["title"].'</td>
                                 <td><!-- Button trigger modal -->
                                 <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#AO'.$row["title"].'">EDIT</button>
@@ -2575,13 +2572,15 @@ echo '
                                 </div>
                                 <div class="modal-body mt-0 pt-0">
                                     <form method="POST" action="" class="p-2" enctype="multipart/form-data">
-                                    <hr>
+                                    <div class="alert alert-primary text-center p-1" role="alert">
+                                    Any other
+                                    </div>
                                     <div class="form-group p-2">
                                         <label for="subC">Title</label>
                                         <input type="text" class="form-control" value="'.$row["title"].'" id="title" name="title" readonly>
                                     </div>
                                     <div class="form-group p-2">
-                                        <label for="attach">Attachment &nbsp; 
+                                        <label for="attach">Attachment <i>(Max 2 MB PDF)</i> &nbsp; &nbsp; 
                                         <a href="../document/'.$a.'/'.$row["attachment"].'" target="_blank" >View</a></label>
                                         <input type="file" accept="application/pdf" class="form-control" id="attach" name="attachment">
                                     </div>
@@ -2681,43 +2680,42 @@ $('#mybtn2').click(function(){
 $('#TLP').find('#sem').on('change', function() {
     if(this.value != '0'){
         let sem = this.value;
-        let code = $('#TLP').find('#sub').val();
-        let p1 = code+'/'+sem;
-        if(code.length > 0){
-            if(getName(p1) === undefined){
-                $('#TLP').find('#subNameTLP').val('Invalid');
-            }
-            else{
-                $('#TLP').find('#subNameTLP').val(getName(p1));
+        let subdrop = $('#TLP').find('#subdrop');
+        $('#TLP').find('#subNameTLP').val('');
+        if($('#TLP').find('#subdrop').children().length <= 0){
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
             }
         }
         else{
-            $('#TLP').find('#subNameTLP').val('');
+            $('#TLP').find('#subdrop').empty()
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
+            }
         }
     }
     else{
+        $('#TLP').find('#subdrop').empty()
+        subdrop.append('<option value=\'0\'>Select Subject Code</option>');
         $('#TLP').find('#subNameTLP').val('');
-
     }
 });
 
 
-$('#TLP').find('#sub').keyup(function() {
-    console.log($(this).val());
-    if($(this).val().length > 0){
-        if($('#TLP').find('#sem').find(':selected').val()!= '0'){
-            let sem = $('#TLP').find('#sem').find(':selected').val();
-            let code = $(this).val();
-            let p1 = code+'/'+sem;
-            if(getName(p1) === undefined){
-                $('#TLP').find('#subNameTLP').val('Invalid');
-            }
-            else{
-                $('#TLP').find('#subNameTLP').val(getName(p1));
-            }
+$('#TLP').find('#subdrop').on('change', function() {
+    if(this.value != '0'){
+        let code = this.value
+        let sem = $('#TLP').find('#sem').find(':selected').val();
+        let p1 = code+'/'+sem;
+        if(getName(p1) === undefined){
+            $('#TLP').find('#subNameTLP').val('Invalid');
         }
         else{
-            $('#TLP').find('#subNameTLP').val('');
+            $('#TLP').find('#subNameTLP').val(getName(p1));
         }
     }
     else{
@@ -2728,96 +2726,98 @@ $('#TLP').find('#sub').keyup(function() {
 $('#GR').find('#semGR').on('change', function() {
     if(this.value != '0'){
         let sem = this.value;
-        let code = $('#GR').find('#subC').val();
+        let subdrop = $('#GR').find('#subdrop');
+        $('#GR').find('#subNameGR').val('');
+        if($('#GR').find('#subdrop').children().length <= 0){
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
+            }
+        }
+        else{
+            $('#GR').find('#subdrop').empty()
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
+            }
+        }
+    }
+    else{
+        $('#GR').find('#subdrop').empty()
+        subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+        $('#GR').find('#subNameGR').val('');
+    }
+});
+
+
+$('#GR').find('#subdrop').on('change', function() {
+    if(this.value != '0'){
+        let code = this.value
+        let sem = $('#GR').find('#semGR').find(':selected').val();
         let p1 = code+'/'+sem;
-        if(code.length > 0){
-            if(getName(p1) === undefined){
-                $('#GR').find('#subNameGR').val('Invalid');
-            }
-            else{
-                $('#GR').find('#subNameGR').val(getName(p1));
-            }
+        if(getName(p1) === undefined){
+            $('#GR').find('#subNameGR').val('Invalid');
         }
         else{
-            $('#GR').find('#subNameGR').val('');
-        }
-    }
-    else{
-        $('#GR').find('#subNameGR').val('');
-
-    }
-});
-
-
-$('#GR').find('#subC').keyup(function() {
-    console.log($(this).val());
-    if($(this).val().length > 0){
-        if($('#GR').find('#semGR').find(':selected').val()!= '0'){
-            let sem = $('#GR').find('#semGR').find(':selected').val();
-            let code = $(this).val();
-            let p1 = code+'/'+sem;
-            if(getName(p1) === undefined){
-                $('#GR').find('#subNameGR').val('Invalid');
-            }
-            else{
-                $('#GR').find('#subNameGR').val(getName(p1));
-            }
-        }
-        else{
-            $('#GR').find('#subNameGR').val('');
+            $('#GR').find('#subNameGR').val(getName(p1));
         }
     }
     else{
         $('#GR').find('#subNameGR').val('');
     }
 });
+
 
 $('#raa8').find('#sem').on('change', function() {
     if(this.value != '0'){
         let sem = this.value;
-        let code = $('#raa8').find('#subC').val();
-        let p1 = code+'/'+sem;
-        if(code.length > 0){
-            if(getName(p1) === undefined){
-                $('#raa8').find('#subNameraa8').val('Invalid');
-            }
-            else{
-                $('#raa8').find('#subNameraa8').val(getName(p1));
+        let subdrop = $('#raa8').find('#subdrop');
+        $('#raa8').find('#subNameraa8').val('');
+        if($('#raa8').find('#subdrop').children().length <= 0){
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
             }
         }
         else{
-            $('#raa8').find('#subNameraa8').val('');
+            $('#raa8').find('#subdrop').empty()
+            let arr = getKeyByValue(sem)
+            subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+            for(var i in arr){
+                subdrop.append('<option value='+arr[i]+'>'+arr[i]+'</option>');
+            }
+        }
+    }
+    else{
+        $('#raa8').find('#subdrop').empty()
+        subdrop.append('<option value=\'0\'>Select Subject Code</option>');
+        $('#raa8').find('#subNameraa8').val('');
+    }
+});
+
+
+$('#raa8').find('#subdrop').on('change', function() {
+    if(this.value != '0'){
+        let code = this.value
+        let sem = $('#raa8').find('#sem').find(':selected').val();
+        let p1 = code+'/'+sem;
+        if(getName(p1) === undefined){
+            $('#raa8').find('#subNameraa8').val('Invalid');
+        }
+        else{
+            $('#raa8').find('#subNameraa8').val(getName(p1));
         }
     }
     else{
         $('#raa8').find('#subNameraa8').val('');
-
     }
 });
 
-
-$('#raa8').find('#subC').keyup(function() {
-    console.log($(this).val());
-    if($(this).val().length > 0){
-        if($('#raa8').find('#sem').find(':selected').val()!= '0'){
-            let sem = $('#raa8').find('#sem').find(':selected').val();
-            let code = $(this).val();
-            let p1 = code+'/'+sem;
-            if(getName(p1) === undefined){
-                $('#raa8').find('#subNameraa8').val('Invalid');
-            }
-            else{
-                $('#raa8').find('#subNameraa8').val(getName(p1));
-            }
-        }
-        else{
-            $('#raa8').find('#subNameraa8').val('');
-        }
-    }
-    else{
-        $('#TLP').find('#subNameTLP').val('');
-    }
-});
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle=\"tooltip\"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 </script>";
 
@@ -2877,7 +2877,7 @@ if(isset($_SESSION["danger"]) and $_SESSION["danger"]!=""){
 
 if(isset($_POST["submitTLP"])){
     $n=$_POST["subName"];
-    $b=$_POST["subCode"];
+    $b=$_POST["subdrop"];
     $c=$_POST["scheduleClass"];
     $d=$_POST["actualClass"];
     $e=$_POST["semester"];
@@ -2885,6 +2885,10 @@ if(isset($_POST["submitTLP"])){
     $point=round($point,2);
     if($e=="0"){
         $_SESSION["danger"]='Select Sem';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    elseif($b=="0"){
+        $_SESSION["danger"]='Select Subject Code';
         echo "<script>location.href = 'home.php';</script>";
     }
     elseif($n=="Invalid" or $n==""){
@@ -2920,7 +2924,7 @@ if(isset($_POST["submitTLP"])){
 }
 
 if(isset($_POST["submitGR"])){
-    $b=$_POST["subCode"];
+    $b=$_POST["subdrop"];
     $c=$_POST["subName"];
     $d=$_POST["year"];
     $e=$_POST["resultInstitute"];
@@ -2934,6 +2938,10 @@ if(isset($_POST["submitGR"])){
     }
     if($g=="0"){
         $_SESSION["danger"]='Select Sem';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    elseif($b=="0"){
+        $_SESSION["danger"]='Select Subject Code';
         echo "<script>location.href = 'home.php';</script>";
     }
     elseif($c=="Invalid" or $c==""){
@@ -3047,12 +3055,12 @@ if(isset($_POST["submitDP"])){
             $rr="coordinator";
         }
         else if($d==1 and $c==2){
-            $point=2*1;
+            $point=1;
             $dur="1year";
             $rr="cocooordinator";
         }
         else if($d==1 and $c==3){
-            $point=2*1;
+            $point=1;
             $dur="1year";
             $rr="member";
         }
@@ -3062,12 +3070,12 @@ if(isset($_POST["submitDP"])){
             $rr="coordinator";
         }
         else if($d==2 and $c==2){
-            $point=2*(0.5);
+            $point=(0.5);
             $dur="6month";
             $rr="cocooordinator";
         }
         else if($d==2 and $c==3){
-            $point=2*(0.5);
+            $point=(0.5);
             $dur="6month";
             $rr="member";
         }
@@ -3125,12 +3133,12 @@ if(isset($_POST["submitIP"])){
             $rr="coordinator";
         }
         else if($d==1 and $c==2){
-            $point=2*1;
+            $point=1;
             $dur="1year";
             $rr="cocooordinator";
         }
         else if($d==1 and $c==3){
-            $point=2*1;
+            $point=1;
             $dur="1year";
             $rr="member";
         }
@@ -3140,12 +3148,12 @@ if(isset($_POST["submitIP"])){
             $rr="coordinator";
         }
         else if($d==2 and $c==2){
-            $point=2*(0.5);
+            $point=(0.5);
             $dur="6month";
             $rr="cocooordinator";
         }
         else if($d==2 and $c==3){
-            $point=2*(0.5);
+            $point=(0.5);
             $dur="6month";
             $rr="member";
         }
@@ -3231,7 +3239,7 @@ if(isset($_POST["submitRAA1"])){
         elseif($d==2){$for="Faculty";}
         
         if($f==1){$point=5;$rol="Coordinator";}
-        elseif($f==2){$point=2;$rol="Co-coordinator";}
+        elseif($f==2){$point=0;$rol="Co-coordinator";}
         
 
         $sql = "SELECT * FROM RAA1 WHERE id='".$a."' AND date='".$c."'";
@@ -3513,13 +3521,17 @@ if(isset($_POST["submitRAA7"])){
 
 if(isset($_POST["submitRAA8"])){
     $n=$_POST["subName"];
-    $b=$_POST["subCode"];
+    $b=$_POST["subdrop"];
     $c=$_POST["link"];
     $e=$_POST["semester"];
     $point=5;
     $index="";
     if($e=="0"){
         $_SESSION["danger"]='Select Sem';
+        echo "<script>location.href = 'home.php';</script>";
+    }
+    elseif($b=="0"){
+        $_SESSION["danger"]='Select Subject Code';
         echo "<script>location.href = 'home.php';</script>";
     }
     elseif($n=="Invalid" or $n==""){
@@ -3600,7 +3612,6 @@ if(isset($_POST["submitRAA9"])){
 
 if(isset($_POST["submitRAA10"])){
     $b=$_POST["name"];
-    $d=$_POST["enroll"];
     $g=$_POST["noc"];
     $c=$_POST["nameou"];
     $point=0;
@@ -3617,7 +3628,7 @@ if(isset($_POST["submitRAA10"])){
         $index=strtolower($index);
         $index=str_replace(' ', '-', $index);
 
-        $sql = "SELECT * FROM RAA10 WHERE id='".$a."' AND enrollment='".$d."'";
+        $sql = "SELECT * FROM RAA10 WHERE id='".$a."' AND name='".$index."'";
         $result = mysqli_query($conn, $sql);
         if (mysqli_num_rows($result) > 0) {
             $_SESSION["danger"]='Entry already there';
@@ -3632,7 +3643,7 @@ if(isset($_POST["submitRAA10"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "INSERT INTO RAA10 VALUES ('$a','$d','$index','$g','$c',$point,'',0,0,'$fpdfname','')";
+            $sql = "INSERT INTO RAA10 VALUES ('$a','$index','$g','$c',$point,'',0,0,'$fpdfname','')";
             if (mysqli_query($conn, $sql)) {
                 $_SESSION["success"]='RAA10 Entry Successfully';
                 echo "<script>location.href = 'home.php';</script>";
@@ -3850,12 +3861,12 @@ if(isset($_POST["editDP"])){
         $rr="coordinator";
     }
     else if($d==1 and $c==2){
-        $point=2*1;
+        $point=1;
         $dur="1year";
         $rr="cocooordinator";
     }
     else if($d==1 and $c==3){
-        $point=2*1;
+        $point=1;
         $dur="1year";
         $rr="member";
     }
@@ -3865,12 +3876,12 @@ if(isset($_POST["editDP"])){
         $rr="coordinator";
     }
     else if($d==2 and $c==2){
-        $point=2*(0.5);
+        $point=(0.5);
         $dur="6month";
         $rr="cocooordinator";
     }
     else if($d==2 and $c==3){
-        $point=2*(0.5);
+        $point=(0.5);
         $dur="6month";
         $rr="member";
     }
@@ -3916,12 +3927,12 @@ if(isset($_POST["editIP"])){
         $rr="coordinator";
     }
     else if($d==1 and $c==2){
-        $point=2*1;
+        $point=1;
         $dur="1year";
         $rr="cocooordinator";
     }
     else if($d==1 and $c==3){
-        $point=2*1;
+        $point=1;
         $dur="1year";
         $rr="member";
     }
@@ -3931,12 +3942,12 @@ if(isset($_POST["editIP"])){
         $rr="coordinator";
     }
     else if($d==2 and $c==2){
-        $point=2*(0.5);
+        $point=(0.5);
         $dur="6month";
         $rr="cocooordinator";
     }
     else if($d==2 and $c==3){
-        $point=2*(0.5);
+        $point=(0.5);
         $dur="6month";
         $rr="member";
     }
@@ -3991,7 +4002,7 @@ if(isset($_POST["editRAA1"])){
         elseif($d==2){$for="Faculty";}
         
         if($f==1){$point=5;$rol="Coordinator";}
-        elseif($f==2){$point=2;$rol="Co-coordinator";}
+        elseif($f==2){$point=0;$rol="Co-coordinator";}
         
         if($_FILES['attachment']['name'] == "") {
             $sql = "UPDATE RAA1 SET name='$b',considering='$for',role='$rol',participants='$e',point='$point'  WHERE id='$a' AND date='$c'" ;
@@ -4343,7 +4354,6 @@ if(isset($_POST["editRAA9"])){
 
 if(isset($_POST["editRAA10"])){
     $b=$_POST["name"];
-    $d=$_POST["enrollment"];
     $c=$_POST["noc"];
     $e=$_POST["nameou"];
     if($b=="0"){
@@ -4351,16 +4361,16 @@ if(isset($_POST["editRAA10"])){
         echo "<script>location.href = 'home.php';</script>";
     }
     else{
-        $index="";
-        if($b==1){$point=10;$index="Phd";}
-        elseif($b==2){$point=15;$index="Phd Thesis";}
-        elseif($b==3){$point=3;$index="Pg";}
-        elseif($b==4){$point=1;$index="Ug";}
-        $index=strtolower($index);
-        $index=str_replace(' ', '-', $index);
+        // $index="";
+        // if($b==1){$point=10;$index="Phd";}
+        // elseif($b==2){$point=15;$index="Phd Thesis";}
+        // elseif($b==3){$point=3;$index="Pg";}
+        // elseif($b==4){$point=1;$index="Ug";}
+        // $index=strtolower($index);
+        // $index=str_replace(' ', '-', $index);
 
         if($_FILES['attachment']['name'] == "") {
-            $sql = "UPDATE RAA10 SET point=$point, name='$index', candidate='$c',university='$e'  WHERE id='$a' AND enrollment='$d'" ;
+            $sql = "UPDATE RAA10 SET candidate='$c',university='$e'  WHERE id='$a' AND name='$b'" ;
         }
         else{
             $fpdfname=$index."-RAA10.pdf";
@@ -4372,7 +4382,7 @@ if(isset($_POST["editRAA10"])){
             move_uploaded_file($attachment_tem_loc,$attachment_store);
             $newpath="../document/".$a."/".$fpdfname;
             rename($attachment_store, $newpath);
-            $sql = "UPDATE RAA10 SET point=$point, name='$index', candidate='$c',university='$e',attachment='$fpdfname'  WHERE id='$a' AND enrollment='$d'" ;
+            $sql = "UPDATE RAA10 SET candidate='$c',university='$e',attachment='$fpdfname'  WHERE id='$a' AND name='$b'" ;
         }
         if ($conn->query($sql) === TRUE) {
             $_SESSION["success"]='RAA10 Updated Successfully';

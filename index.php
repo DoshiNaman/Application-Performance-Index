@@ -78,7 +78,7 @@
                             $_SESSION["id"]=$row["id"];
                             echo"
                             <script>
-                                location.href = 'admin/home.php';
+                                location.href = 'super user/home.php';
                             </script>
                             ";
                     }
