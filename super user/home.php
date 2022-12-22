@@ -53,6 +53,7 @@ echo '
                     <select class="form-select" id="deptType" name="dept" aria-label="Default select example">
                         <option value="CE">Computer</option>
                         <option value="IT">Information Tech</option>
+                        <option value="EC">Electronics & Communication</option>
                     </select>
                     </div>
                     <div class="mb-3">
