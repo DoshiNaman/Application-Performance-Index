@@ -65,12 +65,14 @@ echo '
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.css" />
 <script src="https://cdn.jsdelivr.net/npm/simple-notify@0.5.5/dist/simple-notify.min.js"></script>
 <style>
-
+.imgcl {display: flex;justify-content: center;}
 </style>
 </head>
 <body>
     <div class="container">
-        <br/><a href="profile.php">Profile</a>&nbsp;<a href="home.php">Home</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
+    <div class="d-flex justify-content-center"> <img src="../assets/img/GU-Logo-Report.png" height="70" /> </div>
+    <h6 class="d-flex justify-content-center">Gandhinagar Institute Of Technology</h6>
+    <a href="profile.php">Profile</a>&nbsp;<a href="home.php">Home</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
@@ -105,41 +107,24 @@ echo '
             foreach($totalF as $name => $id) {
                 $fpoint = 0;
                 echo'
-            <div class="col-lg m-2 p-2 shadow p-3 mb-1 bg-body rounded border border border-light" id="pdf'.$id.'" style="display:None;">
-            <div class="cards-list">
+            <div class="col-lg m-2 p-2 shadow p-3 mb-1 bg-body rounded border border border-light" id="pdf'.$id.'" style="display: none;">
             
-            <div class="card 1">
             
             ';
                     $sql = "SELECT * FROM Profile WHERE id='".$id."'";
                     $result = mysqli_query($conn, $sql);
                     if (mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
-                        echo '<div class="card_image"> <img src="../document/'.$row["id"].'/'.$row["dp"].'" /> </div>
-                        <div class="card_title title-white">
-                            <p>'.$row['name'].'|'.$row['dept'].'</p>
-                        </div>';
-                    // echo'
-                    // <div class="img-container">
-                    // <div class="img-inner">
-                    //     <div class="inner-skew">
-                    //     <img src="../document/'.$row["id"].'/'.$row["dp"].'">
-                    //     </div>
-                    // </div>
-                    // </div>
-                    // <div class="text-container">
-                    // <h3>A blue bird</h3>
-                    // <div>
-                    // '.$row['name'].'|'.$row['dept'].' | '.$row['role'].'
-                    // </div>';
+                        echo '<div class="imgcl"> <img src="../assets/img/GU-Logo-Report.png" width="250" height="150" /> </div>
+                        <h6 class="imgcl">Gandhinagar Institute Of Technology</h6>
+                        <h5 class="imgcl">'.$row['name'].'</h5>';
                     }
                     }
                 echo'
 
-                </div>
                 <table class="table table-hover">
                     <thead>
-                    <tr><th scope="col" colspan="8" class="text-center"><h5>Teaching Learning Process (50)</h5></th></tr>
+                    <tr><th scope="col" colspan="9" class="text-center"><h5>Teaching Learning Process (50)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Semester</th>
@@ -148,6 +133,7 @@ echo '
                         <th scope="col">No of Scheduled Classes</th>
                         <th scope="col">No of Actually Classes</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -168,6 +154,15 @@ echo '
                                     <td>'.$row['scheduleClass'].'</td>
                                     <td>'.$row['actualClass'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -177,18 +172,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="8" class="text-center">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="9" class="text-center">NO ENTRY</td></tr>';}
                     if($point>50){$point=50;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="8" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="9" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="9" class="text-center"><h5>GTU Result (100)</h5></th></tr>
+                    <tr><th scope="col" colspan="10" class="text-center"><h5>GTU Result (100)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Semester</th>
@@ -198,6 +194,7 @@ echo '
                         <th scope="col">Result Of Institute</th>
                         <th scope="col">Result Of GTU</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -219,6 +216,15 @@ echo '
                                     <td>'.$row['resultInstitute'].'</td>
                                     <td>'.$row['resultGtu'].'</td>
                                     <td>'.$row['point'].'</td>
+                                ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -228,18 +234,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="9" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="10" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>100){$point=100;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="9" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="10" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="8" class="text-center"><h5>Discipline (40)</h5></th></tr>
+                    <tr><th scope="col" colspan="9" class="text-center"><h5>Discipline (40)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Late Punch</th>
@@ -248,6 +255,7 @@ echo '
                         <th scope="col">Memo Justification</th>
                         <th scope="col">Fine</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -268,6 +276,15 @@ echo '
                                     <td>'.$row['MJC'].'</td>
                                     <td>'.$row['F'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -277,24 +294,26 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="9" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>40){$point=40;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="8" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="9" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="6" class="text-center"><h5>Department Portfolio (20)</h5></th></tr>
+                    <tr><th scope="col" colspan="7" class="text-center"><h5>Department Portfolio (20)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Portfolio Name</th>
                         <th scope="col">Role</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -313,6 +332,15 @@ echo '
                                     <td>'.$row['role'].'</td>
                                     <td>'.$row['duration'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -322,24 +350,26 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="6" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>20){$point=20;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="6" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="7" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="6" class="text-center"><h5>Institute Portfolio (20)</h5></th></tr>
+                    <tr><th scope="col" colspan="7" class="text-center"><h5>Institute Portfolio (20)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Portfolio Name</th>
                         <th scope="col">Role</th>
                         <th scope="col">Duration</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -358,6 +388,15 @@ echo '
                                     <td>'.$row['role'].'</td>
                                     <td>'.$row['duration'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -367,23 +406,25 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="6" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>20){$point=20;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="6" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="7" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="5" class="text-center"><h5>Contribution to Society (10)</h5></th></tr>
+                    <tr><th scope="col" colspan="6" class="text-center"><h5>Contribution to Society (10)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Activity Name</th>
                         <th scope="col">Date</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -401,6 +442,15 @@ echo '
                                     <td>'.$row['activity'].'</td>
                                     <td>'.$row['date'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -410,19 +460,20 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="5" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="6" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="5" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="6" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="8" class="text-center"><h5>Research and Alied activites (125)</h5></th></tr>
-                    <tr><th scope="col" colspan="8" class="text-center"><h6>Seminar Workshop, Techinal / Motivational Training Organized (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="9" class="text-center"><h5>Research and Alied activites (125)</h5></th></tr>
+                    <tr><th scope="col" colspan="9" class="text-center"><h6>Seminar Workshop, Techinal / Motivational Training Organized (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Activity Name</th>
@@ -431,6 +482,7 @@ echo '
                         <th scope="col">No of Participates</th>
                         <th scope="col">Role</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -451,6 +503,15 @@ echo '
                                     <td>'.$row['participants'].'</td>
                                     <td>'.$row['role'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -460,18 +521,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="9" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="8" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="9" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="9" class="text-center"><h6>Faculty Program FDP/STTP Organized (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="10" class="text-center"><h6>Faculty Program FDP/STTP Organized (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Activity Name</th>
@@ -481,6 +543,7 @@ echo '
                         <th scope="col">No of Days</th>
                         <th scope="col">Agency</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -502,6 +565,15 @@ echo '
                                     <td>'.$row['days'].'</td>
                                     <td>'.$row['sponsoring_agency'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -511,18 +583,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="9" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="10" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="9" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="10" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="7" class="text-center"><h6>Participation in MOOCS courses (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="8" class="text-center"><h6>Participation in MOOCS courses (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Course Name</th>
@@ -530,6 +603,7 @@ echo '
                         <th scope="col">Exam Date</th>
                         <th scope="col">Duration (week)</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -549,6 +623,15 @@ echo '
                                     <td>'.$row['date_of_examination'].'</td>
                                     <td>'.$row['duration'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -558,18 +641,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="7" class="text-center"><h6>Membership of Associations or Professional Bodies (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="8" class="text-center"><h6>Membership of Associations or Professional Bodies (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Org Name</th>
@@ -577,6 +661,7 @@ echo '
                         <th scope="col">Type</th>
                         <th scope="col">Membership Number</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -596,6 +681,15 @@ echo '
                                     <td>'.$row['type'].'</td>
                                     <td>'.$row['membership'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -605,19 +699,20 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <!--<tr><th scope="col" colspan="9" class="text-center"><h6>Research Paper Publication (20)</h6></th></tr>-->
-                    <tr><th scope="col" colspan="9" class="text-center"><h6>Research Paper Published in Peer Reviewed SCI/Scopus/JET or UGC listed Journals (10)</h6></th></tr>
+                    <!--<tr><th scope="col" colspan="10" class="text-center"><h6>Research Paper Publication (20)</h6></th></tr>-->
+                    <tr><th scope="col" colspan="10" class="text-center"><h6>Research Paper Published in Peer Reviewed SCI/Scopus/JET or UGC listed Journals (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Author Name</th>
@@ -627,6 +722,7 @@ echo '
                         <th scope="col">Journal Name</th>
                         <th scope="col">Volume Page</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -648,6 +744,15 @@ echo '
                                     <td>'.$row['journal'].'</td>
                                     <td>'.$row['vpage'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -657,19 +762,20 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="9" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="10" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="9" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="10" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <!--<tr><th scope="col" colspan="7" class="text-center"><h6>Research Paper Publication (20)</h6></th></tr>-->
-                    <tr><th scope="col" colspan="7" class="text-center"><h6>Research Paper Publication in Conference (10)</h6></th></tr>
+                    <!--<tr><th scope="col" colspan="8" class="text-center"><h6>Research Paper Publication (20)</h6></th></tr>-->
+                    <tr><th scope="col" colspan="8" class="text-center"><h6>Research Paper Publication in Conference (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Author Name</th>
@@ -677,6 +783,7 @@ echo '
                         <th scope="col">Name of Conference, Volume Pages</th>
                         <th scope="col">Presented/Publish</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -696,6 +803,15 @@ echo '
                                     <td>'.$row['cvp'].'</td>
                                     <td>'.$row['pp'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -705,18 +821,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="7" class="text-center"><h6>Books authored  which are published by (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="8" class="text-center"><h6>Books authored  which are published by (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Title of book</th>
@@ -724,6 +841,7 @@ echo '
                         <th scope="col">Year</th>
                         <th scope="col">Publisher</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -743,6 +861,15 @@ echo '
                                     <td>'.$row['year'].'</td>
                                     <td>'.$row['publisher'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -752,18 +879,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="7" class="text-center"><h6>E-content (10)</h6></th></tr>
+                    <tr><th scope="col" colspan="8" class="text-center"><h6>E-content (10)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Sem</th>
@@ -771,6 +899,7 @@ echo '
                         <th scope="col">Subject Name</th>
                         <th scope="col">Link</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -790,6 +919,15 @@ echo '
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['link'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -799,23 +937,25 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>10){$point=10;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="5" class="text-center"><h6>Patents (20)</h6></th></tr>
+                    <tr><th scope="col" colspan="6" class="text-center"><h6>Patents (20)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Patent Name</th>
                         <th scope="col">Option</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -833,6 +973,15 @@ echo '
                                     <td>'.$row['name'].'</td>
                                     <td>'.$row['type'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -842,24 +991,26 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="5" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="6" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>20){$point=20;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="5" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="6" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="6" class="text-center"><h6>Research Guidance (30)</h6></th></tr>
+                    <tr><th scope="col" colspan="7" class="text-center"><h6>Research Guidance (30)</h6></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Program</th>
                         <th scope="col">No of Candidate/team/group</th>
                         <th scope="col">Name of University</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -878,6 +1029,15 @@ echo '
                                     <td>'.$row['candidate'].'</td>
                                     <td>'.$row['university'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -887,18 +1047,19 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="6" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>30){$point=30;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="6" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="7" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="7" class="text-center"><h5>Invited For Lectures (5)</h5></th></tr>
+                    <tr><th scope="col" colspan="8" class="text-center"><h5>Invited For Lectures (5)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Institute Name</th>
@@ -906,6 +1067,7 @@ echo '
                         <th scope="col">Date</th>
                         <th scope="col">Topic</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -925,6 +1087,15 @@ echo '
                                     <td>'.$row['date'].'</td>
                                     <td>'.$row['topic'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -934,22 +1105,24 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="7" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="8" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>5){$point=5;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="7" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="8" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
                 <table class="table table-hover mt-5">
                     <thead>
-                    <tr><th scope="col" colspan="4" class="text-center"><h5>Any Other (15)</h5></th></tr>
+                    <tr><th scope="col" colspan="5" class="text-center"><h5>Any Other (15)</h5></th></tr>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">title</th>
                         <th scope="col">Points</th>
+                        <th scope="col">Verified Name</th>
                         <th scope="col">Verified ID</th>
                     </tr>
                     </thead>
@@ -966,6 +1139,15 @@ echo '
                                     <td>'.$i.'</td>
                                     <td>'.$row['title'].'</td>
                                     <td>'.$row['point'].'</td>
+                                    ';
+                                $sql2 = "SELECT * FROM Profile WHERE id='".$row['vid']."'";
+                                $result2 = mysqli_query($conn, $sql2);
+                                if (mysqli_num_rows($result2) > 0) {
+                                    while($row2 = mysqli_fetch_assoc($result2)) {
+                                        echo'<td>'.$row2['name'].'</td>';
+                                    }
+                                }
+                                echo'
                                     <td>'.$row['vid'].'</td>
                                 </tr>
                                 ';
@@ -975,16 +1157,17 @@ echo '
                         }
                         
                     }
-                    if($i==1){echo'<tr><td colspan="4" class="text-center fw-light">NO ENTRY</td></tr>';}
+                    $epoint=$point;
+                    if($i==1){echo'<tr><td colspan="5" class="text-center fw-light">NO ENTRY</td></tr>';}
                     if($point>5){$point=5;}
                     $fpoint=$fpoint+$point;
                     echo'
-                    <tr><td colspan="4" class="text-center"><i>Total Point : '.$point.'</i></td></tr>
+                    <tr><td colspan="5" class="text-center"><i>Earned Point : '.$epoint.'</i> | <i>Considered Point : '.$point.'</i></td></tr>
                     <tr></tr>
                     </tbody>
                 </table>
 
-                <h3 class="mt-5"><b><span class="highlight" style="background-image: linear-gradient(to right, #F27121cc, #E94057cc, #8A2387cc);border-radius: 6px;padding: 3px 6px;color: #fff;text-align: center;font-family: sans-serif;">FINAL POINT : '.$fpoint.'</span></b></h3>
+                <h3 class="mt-5 imgcl"><b><span class="highlight" style="background-image: linear-gradient(to right, #F27121cc, #E94057cc, #8A2387cc);border-radius: 6px;padding: 3px 6px;color: #fff;text-align: center;font-family: sans-serif;">FINAL POINT : '.$fpoint.'/400</span></b></h3>
             
             
             </div>
@@ -1017,11 +1200,11 @@ echo '
         var style = "<style>";
         style = style + "table {width: 100%;font: 17px Calibri;}";
         style = style + ".h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {margin-top: 0;margin-bottom: 0.5rem;font-weight: 500;line-height: 1.2;color: var(--bs-heading-color);}";
-        style = style + ".h5, h5 {font-size: 1.25rem;font-weight: 700;}";
+        style = style + ".h5, h5 {font-size: 1.25rem;font-weight: 700;}.h6, h6 {font-size: 1rem;font-weight: 500;}";
         style = style + ".mt-5 {margin-top: 3rem!important;}";
         style = style + "table, th, td {border: solid 1px #DDD; border-collapse: collapse;";
         style = style + "padding: 2px 3px;text-align: center;}";
-        style = style + ".cards-list {z-index: 0;width: 100%;display: flex;justify-content: space-around;flex-wrap: wrap;}.card {margin: 30px auto;width: 150px;height: 150px;border-radius: 40px;cursor: pointer;transition: 0.4s;}.card .card_image {width: inherit;height: inherit;border-radius: 40px;}.card .card_image img {width: inherit;height: inherit;border-radius: 40px;object-fit: cover;}.card .card_title {text-align: center;border-radius: 0px 0px 40px 40px;font-family: sans-serif;font-weight: bold;font-size: 20px;margin-top: -50px;height: 40px;}.title-white {color: white;}@media all and (max-width: 500px) {.card-list {flex-direction: column;}}.highlight-yellow {border-radius: 1em 0 1em 0;background-image: linear-gradient(-100deg,rgba(255, 224, 0, 0.2),rgba(255, 224, 0, 0.7) 95%,rgba(255, 224, 0, 0.1));}";
+        style = style + ".imgcl {display: flex;justify-content: center;}.cards-list {z-index: 0;width: 100%;display: flex;justify-content: space-around;flex-wrap: wrap;}.card {margin: 30px auto;width: 150px;height: 150px;border-radius: 40px;cursor: pointer;transition: 0.4s;}.card .card_image {width: inherit;height: inherit;border-radius: 40px;}.card .card_image img {width: inherit;height: inherit;border-radius: 40px;object-fit: cover;}.card .card_title {text-align: center;border-radius: 0px 0px 40px 40px;font-family: sans-serif;font-weight: bold;font-size: 20px;margin-top: -50px;height: 40px;}.title-white {color: white;}@media all and (max-width: 500px) {.card-list {flex-direction: column;}}.highlight-yellow {border-radius: 1em 0 1em 0;background-image: linear-gradient(-100deg,rgba(255, 224, 0, 0.2),rgba(255, 224, 0, 0.7) 95%,rgba(255, 224, 0, 0.1));}";
         style = style + "</style>";
     
         // CREATE A WINDOW OBJECT.

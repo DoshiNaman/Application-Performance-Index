@@ -58,7 +58,9 @@ echo '
 </head>
 <body>
     <div class="container">
-     <br/><a href="profile.php">Profile</a><a class="ms-3" href="home.php">Home</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
+    <div class="d-flex justify-content-center"> <img src="../assets/img/GU-Logo-Report.png" height="70" /> </div>
+    <h6 class="d-flex justify-content-center">Gandhinagar Institute Of Technology</h6>
+    <a href="profile.php">Profile</a><a class="ms-3" href="home.php">Home</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
      <div class="form-group">
       <p class="form-control"> Verified or Locked Activity </p> 
       <table class="table table-hover" id="table2">

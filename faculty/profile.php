@@ -29,9 +29,28 @@ if(isset($_SESSION["id"]) AND isset($_SESSION["fprofile"])){
             <div class="alert alert-primary text-center" role="alert">
               A little goes a long way.... Change Password after Successfully build your Profile....
             </div>    
-            <div class="mb-3">
-                    <label for="nameType" class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" id="nameType" required>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <select class="form-control" name="title" id="title">
+                    <option value="Dr." selected>Dr.</option>
+                    <option value="Mr.">Mr.</option>
+                    <option value="Ms.">Ms.</option>
+                    <option value="Mrs.">Mrs.</option>
+                    <option value="Miss.">Miss.</option>
+                    <option value="Prof.">Prof.</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="fnameType" class="form-label">First Name</label>
+                    <input type="text" name="fname" class="form-control" id="fnameType" maxlength="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="mnameType" class="form-label">Middle Name</label>
+                    <input type="text" name="mname" class="form-control" id="mnameType" maxlength="1" required>
+                </div>
+                <div class="mb-3">
+                    <label for="lnameType" class="form-label">Last Name</label>
+                    <input type="text" name="lname" class="form-control" id="lnameType" required>
                 </div>
                 <div class="mb-3">
                     <label for="imgType" class="form-label">Select Avtar <i>(Max 10 MB Image)</i></label>
@@ -278,9 +297,13 @@ if(isset($_POST["update"])){
 
 if(isset($_POST["submit"])){
     $a=$_SESSION["id"];
-    $b=$_POST["name"];
+    $b=$_POST["title"];
+    $fn=$_POST["fname"];
+    $mn=$_POST["mname"];
+    $ln=$_POST["lname"];
+    $name=$b.''.$fn.' '.$mn.' '.$ln;
     
-    $fdpname=$b."-dp.jpg";
+    $fdpname=$name."-dp.jpg";
     $dp=$_FILES['image']['name'];
     $dp_type=$_FILES['image']['type'];
     $dp_size=$_FILES['image']['size'];
@@ -290,7 +313,7 @@ if(isset($_POST["submit"])){
     $newpath="../document/".$a."/".$fdpname;
     rename($dp_store, $newpath);
     #echo $a.$b.$c;
-    $sql = "UPDATE Profile SET `name`='".$b."',`dp`='".$fdpname."' WHERE `id`='".$a."'";
+    $sql = "UPDATE Profile SET `name`='".$name."',`dp`='".$fdpname."' WHERE `id`='".$a."'";
     #echo $sql;
     if(mysqli_query($conn, $sql)){
         $_SESSION["fprofile"]=1;

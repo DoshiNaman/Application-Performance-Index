@@ -177,6 +177,9 @@
         <canvas id="demo-canvas"></canvas>
         <div class="container">
         <form class="m-3" action="" method="POST">
+            
+    <img src="assets/img/GU-Logo-Report.png" height="70" /> 
+    <h6>Gandhinagar Institute Of Technology</h6>
             <h1>API</h1>
             <div class="mb-3">
                 <!-- <label for="idType" class="form-label">Unique Id</label> -->

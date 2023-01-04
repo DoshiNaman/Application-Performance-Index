@@ -32,7 +32,9 @@ echo '
 </head>
 <body>
     <div class="container">
-        <br/><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="activity.php">Portfolio/Subject</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
+    <div class="d-flex justify-content-center"> <img src="../assets/img/GU-Logo-Report.png" height="70" /> </div>
+    <h6 class="d-flex justify-content-center">Gandhinagar Institute Of Technology</h6>
+    <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#exampleModal">Change Password</a>&nbsp;<a href="activity.php">Portfolio/Subject</a><a class="ms-3 float-end" href="../logout.php">Logout</a><hr>
         <div id="alertinner">
         
         </div>
