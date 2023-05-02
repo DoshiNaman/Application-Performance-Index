@@ -1,9 +1,15 @@
 <?php
-session_start();
-$server="localhost";
-$user="root";
-$pass="";
-$db="API";
-//create conn
-$conn=mysqli_connect($server,$user,$pass,$db);
+
+    //session 
+    session_start();
+
+    //database connection related var
+    $server="localhost";
+    $user="root";
+    $pass="";
+    $db="API";
+
+    //create database connection
+    $conn=mysqli_connect($server,$user,$pass,$db);
+
 ?>

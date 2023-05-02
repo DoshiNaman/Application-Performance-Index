@@ -1,14 +1,15 @@
 <?php
 
-session_start();
+    //session
+    session_start();
 
-$helper = array_keys($_SESSION);
-foreach ($helper as $key){
-    unset($_SESSION[$key]);
-}
+    //remove session
+    $helper = array_keys($_SESSION);
+    foreach ($helper as $key){
+        unset($_SESSION[$key]);
+    }
 
-echo'<script>
-    location.href = "index.php";
-    </script>';
+    //change path
+    echo'<script> location.href = "index.php"; </script>';
 
 ?>
