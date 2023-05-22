@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2023 at 10:30 PM
+-- Generation Time: May 10, 2023 at 03:27 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -205,7 +205,7 @@ CREATE TABLE `gr` (
 INSERT INTO `gr` (`id`, `subject`, `subjectName`, `year`, `point`, `resultInstitute`, `resultGtu`, `verify`, `sem`, `attachment`, `locked`, `vid`, `comment`, `log`) VALUES
 ('fac1@ex.com', '3130006', 'Probability and Statistics', '2022-23', 8, 76, 74, 1, 3, '3130006-GR.pdf', 1, 'hod.ce@git.org.in', '', '2023-05-02 19:47:16'),
 ('fac1@ex.com', '3150710', 'Computer Networks', '21-222', 0, 80, 80, 0, 5, '3150710-GR.pdf', 0, '', '', '2023-05-02 19:55:11'),
-('fac1@ex.com', '3170716', 'Artificial Intelligence', '22', -2, 89, 90, 1, 7, '3170716-GR.pdf', 1, 'hod.ce@git.org.in', '', '2023-05-02 19:47:16'),
+('fac1@ex.com', '3170716', 'Artificial Intelligence', '22', -2, 89, 90, 1, 7, '3170716-GR.pdf', 1, 'hod.ce@git.org.in', 'LOREM', '2023-05-05 09:58:51'),
 ('fac3@ex.com', '3130004', 'Effective Technical Communication', '21-22', 12, 79, 76, 1, 3, '3130004-GR.pdf', 1, 'hod.ce@git.org.in', '', '2023-05-02 19:47:16');
 
 -- --------------------------------------------------------
@@ -283,7 +283,7 @@ INSERT INTO `profile` (`id`, `password`, `name`, `dept`, `role`, `dp`) VALUES
 ('fac2@ex.com', '$2y$10$z3FNQOprw7Rs.94unPUlTOOHrCMd7o/wDLo3ndlUM4OnS3nYV/QHa', 'LOREM', 'IT', 'Faculty', ''),
 ('fac3@ex.com', '$2y$10$9Zy3WXpJhKveqKNJpGhG9.gLmvfEN81iiJQDj4JZBhz0N1w.0CSMu', 'Vatsal', 'CE', 'Faculty', 'Vatsal-dp.jpg'),
 ('fac5@ex.com', '$2y$10$5hrsAEwuY7D6a7tpLpMimOAni6g1ub/rXnkltjnZVfHNVBMnVyGpu', '', 'IT', 'Faculty', ''),
-('hod.ce@git.org.in', '$2y$10$FUkL6LWVIjKnkZ3fEZIIoOH2UCdSnkGhU2EXAWZ2qgjZpmDTPdMKC', 'Dr. LOREM H Shah', 'CE', 'Hod', 'Dr. N H Shah-DP.jpg'),
+('hod.ce@git.org.in', '$2y$10$FUkL6LWVIjKnkZ3fEZIIoOH2UCdSnkGhU2EXAWZ2qgjZpmDTPdMKC', 'Dr. LOREM H Shah', 'CE', 'Hod', 'Dr. LOREM H Shah-DP.jpg'),
 ('hod.ec@git.org.in', '$2y$10$oAM8asY8MwuMOndZDL.Tieys8u92g6Jy1oSNZ3/WTEo9xxCgFTR5S', '', 'EC', 'Hod', ''),
 ('hod.it@git.org.in', '$2y$10$AV5BAbd0ovGTFrHuQyY6xun8.pgrSJxLyor3Mmi.wztedGB4SJGnu', 'Hod IT', 'IT', 'Hod', 'Hod IT-dp.jpg'),
 ('superuser@git.org.in', '$2y$10$dF89pSlli7Dq5xrs3Rh/FuHpkaYjjBH.clw87s58/C7dBg0rLZ6XG', 'Super User', 'Super User', 'Super User', 'Super User-DP.jpg');
